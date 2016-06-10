@@ -1,0 +1,175 @@
+*COPY @BSS
+ macro
+ @BSS
+ @data
+ mend
+*COPY @COMM
+ macro
+ @COMM  &sym,&len,&align
+ lclc &t,&s
+ gblc &local
+ aif ('&local' eq '&sym').dobss
+ aif (k'&sym gt 8).trunc
+&sym com
+&sym amode 31
+&sym rmode any
+ ago .gen
+.trunc anop
+&s setc '&sym'(1,8)
+&s com
+&s amode 31
+&s rmode any
+&sym equ &s
+ ago .gen
+.dobss anop
+ @bss
+ aif (k'&align gt 0).ta
+&sym equ *
+ ago .gen
+.ta anop
+ aif ('&align' ne '8').n8
+&sym dc 0d
+ ago .gen
+.n8 anop ,
+ aif ('&align' ne '4').n4
+&sym dc 0f
+ ago .gen
+.n4 anop ,
+ aif ('&align' ne '2').n2
+&sym dc 0h
+ ago .gen
+.n2 anop ,
+ aif ('&align' ne '1').n1
+&sym dc 0h
+ ago .gen
+.n1 anop ,
+ mnote 8,'Bad alignment &align'
+ mexit
+.gen anop
+ dc &len.xl1'0'
+ mend
+*COPY @DATA
+ macro
+ @DATA
+ gblb &sawdata
+ csect
+ aif (&sawdata).x
+&sawdata setb 1
+ amode 31
+ rmode any
+.x anop
+ mend
+*COPY @END
+ macro
+ @END
+ gblc &fname
+ gblc fntable(1)
+ gbla fncount
+ lcla i
+#fncount equ &fncount
+#stmtoffs loctr
+ dc h'0,-1',a(x'7fffffff') Infinity
+#fnix loctr
+.lp anop ,
+&i seta &i+1
+ aif (&fncount lt &i).x
+#fnix loctr
+ dc a(#fname&i-#fnames) Offset to name
+#fnames loctr
+#fname&i dc c'&fntable(&i)',x'00'
+ ago .lp
+.x mend
+*COPY @FILEIX
+ macro
+&l @fileix &ix,&name
+ gbla fncount,fnix
+ gblc fntable(1)
+&fnix seta &ix
+ aif (&fnix le &fncount).haveit
+&fncount seta &ix
+&fntable(&ix) setc '&name'
+.haveit anop
+ mend
+*COPY @FILE
+ macro
+ @FILE &name
+ gblc &fname
+&fname setc '$&name'
+ aif (k'&fname le 8).ok
+&fname setc '&fname'(1,8)
+.ok anop
+&fname rsect ,
+&fname amode 31
+&fname rmode any
+ dc cl8'&fname'
+ dc cl8'&sysdatc'
+ dc cl8'&systime'
+#fnix loctr
+ dc f'0' File index 0
+#fnames loctr
+#stmtoffs loctr
+#stmtoffsets ds 0d Align this table
+&fname loctr ,
+ dc a(#fncount,#fnix,#fnames,#stmtoffsets)
+ mend
+*COPY @LOCAL
+ macro
+ @LOCAL &sym
+ gblc &local
+&local setc '&sym'
+ mend
+*COPY @LOC
+ macro
+&l @loc &ix,&line,&pos
+ gblc &fname
+#stmtoffs loctr
+ dc h'&ix,&line',a(#loc&sysndx-&fname)
+&sysloc loctr ,
+#loc&sysndx equ *
+ mend
+*COPY @PTR
+ macro
+ @PTR  &sz,&name
+ dc    a(&name)
+ mend
+*COPY @SECTION
+ macro
+ @SECTION &name,&flags,&type,&tfs
+ gblc &fname
+&fname rsect
+ mend
+*COPY @SIZE
+ macro
+ @SIZE
+ mend
+*COPY @TEXT
+ macro
+ @TEXT
+ gblc &fname
+&fname rsect
+ mend
+*COPY @TYPE
+ macro
+ @TYPE &name,&what
+ gblb havepcrmode
+ aif ('&what' ne '@function').nf
+ gblc &fname
+&fname rsect
+ dc c'>>&name.<<'
+ ds 0f
+ dc a(*-&fname) Offset to file directory
+ dc cl4'fplx' Mark as having the offset table
+ mexit
+.nf anop
+ aif ('&what' ne '@object').x
+ @data , Stick it into the private code
+ ds 0d
+ mexit
+.x anop
+ mnote 4,'Fixme &what'
+ mend
+*COPY @ZERO
+ macro
+ @ZERO &cnt
+ dc xl&cnt'0'
+ mend

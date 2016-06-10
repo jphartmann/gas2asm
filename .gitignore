@@ -1,0 +1,10 @@
+*.assemble
+*.text
+*.textj
+*.listing
+*.listj
+t.out
+t.dbg
+*.o
+asmxpnd
+gas2asm

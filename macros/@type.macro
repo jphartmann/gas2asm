@@ -1,0 +1,19 @@
+ macro
+ @TYPE &name,&what
+ gblb havepcrmode
+ aif ('&what' ne '@function').nf
+ gblc &fname
+&fname rsect
+ dc c'>>&name.<<'
+ ds 0f
+ dc a(*-&fname) Offset to file directory
+ dc cl4'fplx' Mark as having the offset table
+ mexit
+.nf anop
+ aif ('&what' ne '@object').x
+ @data , Stick it into the private code
+ ds 0d
+ mexit
+.x anop
+ mnote 4,'Fixme &what'
+ mend

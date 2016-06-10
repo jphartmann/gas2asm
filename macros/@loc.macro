@@ -1,0 +1,8 @@
+ macro
+&l @loc &ix,&line,&pos
+ gblc &fname
+#stmtoffs loctr
+ dc h'&ix,&line',a(#loc&sysndx-&fname)
+&sysloc loctr ,
+#loc&sysndx equ *
+ mend

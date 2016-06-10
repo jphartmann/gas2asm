@@ -1,0 +1,10 @@
+ macro
+ @DATA
+ gblb &sawdata
+ csect
+ aif (&sawdata).x
+&sawdata setb 1
+ amode 31
+ rmode any
+.x anop
+ mend

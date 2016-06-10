@@ -1,0 +1,19 @@
+ macro
+ @END
+ gblc &fname
+ gblc fntable(1)
+ gbla fncount
+ lcla i
+#fncount equ &fncount
+#stmtoffs loctr
+ dc h'0,-1',a(x'7fffffff') Infinity
+#fnix loctr
+.lp anop ,
+&i seta &i+1
+ aif (&fncount lt &i).x
+#fnix loctr
+ dc a(#fname&i-#fnames) Offset to name
+#fnames loctr
+#fname&i dc c'&fntable(&i)',x'00'
+ ago .lp
+.x mend

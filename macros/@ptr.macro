@@ -1,0 +1,4 @@
+ macro
+ @PTR  &sz,&name
+ dc    a(&name)
+ mend

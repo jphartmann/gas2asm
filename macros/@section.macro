@@ -1,0 +1,5 @@
+ macro
+ @SECTION &name,&flags,&type,&tfs
+ gblc &fname
+&fname rsect
+ mend

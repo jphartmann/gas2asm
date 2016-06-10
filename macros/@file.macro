@@ -1,0 +1,21 @@
+ macro
+ @FILE &name
+ gblc &fname
+&fname setc '$&name'
+ aif (k'&fname le 8).ok
+&fname setc '&fname'(1,8)
+.ok anop
+&fname rsect ,
+&fname amode 31
+&fname rmode any
+ dc cl8'&fname'
+ dc cl8'&sysdatc'
+ dc cl8'&systime'
+#fnix loctr
+ dc f'0' File index 0
+#fnames loctr
+#stmtoffs loctr
+#stmtoffsets ds 0d Align this table
+&fname loctr ,
+ dc a(#fncount,#fnix,#fnames,#stmtoffsets)
+ mend

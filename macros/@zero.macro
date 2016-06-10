@@ -1,0 +1,4 @@
+ macro
+ @ZERO &cnt
+ dc xl&cnt'0'
+ mend

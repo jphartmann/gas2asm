@@ -1,0 +1,44 @@
+ macro
+ @COMM  &sym,&len,&align
+ lclc &t,&s
+ gblc &local
+ aif ('&local' eq '&sym').dobss
+ aif (k'&sym gt 8).trunc
+&sym com
+&sym amode 31
+&sym rmode any
+ ago .gen
+.trunc anop
+&s setc '&sym'(1,8)
+&s com
+&s amode 31
+&s rmode any
+&sym equ &s
+ ago .gen
+.dobss anop
+ @bss
+ aif (k'&align gt 0).ta
+&sym equ *
+ ago .gen
+.ta anop
+ aif ('&align' ne '8').n8
+&sym dc 0d
+ ago .gen
+.n8 anop ,
+ aif ('&align' ne '4').n4
+&sym dc 0f
+ ago .gen
+.n4 anop ,
+ aif ('&align' ne '2').n2
+&sym dc 0h
+ ago .gen
+.n2 anop ,
+ aif ('&align' ne '1').n1
+&sym dc 0h
+ ago .gen
+.n1 anop ,
+ mnote 8,'Bad alignment &align'
+ mexit
+.gen anop
+ dc &len.xl1'0'
+ mend

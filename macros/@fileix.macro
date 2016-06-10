@@ -1,0 +1,10 @@
+ macro
+&l @fileix &ix,&name
+ gbla fncount,fnix
+ gblc fntable(1)
+&fnix seta &ix
+ aif (&fnix le &fncount).haveit
+&fncount seta &ix
+&fntable(&ix) setc '&name'
+.haveit anop
+ mend
