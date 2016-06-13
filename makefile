@@ -4,10 +4,16 @@
 # gnu make required.
 
 INSTALLBIN:=${HOME}/bin
+INSTALLMAC:=${HOME}/macros
+MACROS:=${notdir ${wildcard macros/*.macro}}
+
 CFLAGS:=-g -Wall -Werror
 YFLAGS:=-Wall -Werror
 
 ${INSTALLBIN}/%: %
+	cp -p $< $@
+
+${INSTALLMAC}/%: macros/%
 	cp -p $< $@
 
 M:=gas2asm asmxpnd
@@ -19,12 +25,23 @@ gas2asm.c: gas2asm.l
 gas2asm.o: gas2asm.c symtab.c loadfile.c le128.c lookup3.c gas2asmmain.c
 
 install: | ${INSTALLBIN}
+install: | ${INSTALLMAC}
 
 ${INSTALLBIN}:
 	mkdir -p ${INSTALLBIN}
 
+${INSTALLMAC}:
+	mkdir -p ${INSTALLMAC}
+
 install: ${INSTALLBIN}/gas2asm
 install: ${INSTALLBIN}/asmxpnd
+
+MP:=${addprefix ${INSTALLMAC}/,${MACROS}}
+install: ${MP}
+
+.PHONY: say
+say:
+	@echo Macros: ${MACROS}
 
 t: $M
 	rm -f core
