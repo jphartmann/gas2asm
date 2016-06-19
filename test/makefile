@@ -1,15 +1,18 @@
-.SUFFIXES: assemble s
+.SUFFIXES: .assemble .text .asmj .textj
 .PHONY: all clean check ok
 .SECONDARY: .assemble
 
 OLD_SHELL:=${SHELL}
 # SHELL=$(warning [target: $@  modified: ($?)])$(OLD_SHELL)
 
-%.assemble: %.s ../asmxpnd ../gas2asm
+%.assemble: %.s
 	((../gas2asm <$< | ../asmxpnd >$@) || (mv $@ $*.asm; exit 1))
 
-%.asmj: %.s ../asmxpnd ../gas2asm
+%.asmj: %.s
 	((../gas2asm -j <$< | ../asmxpnd >$@) || (mv $@ $*.asmjx; exit 1))
+
+*.assemble: ../asmxpnd ../gas2asm
+*.asmj: ../asmxpnd ../gas2asm
 
 check: all
 	cat *.assemble *.asmj >check.asm
@@ -28,11 +31,11 @@ all: pcre_jte.assemble
 # This works only if you have a hlasm that runs on the platform
 # --macrobase should point to the directory containing the @file etc. macros
 %.text: %.assemble
-	hlasm --macrobase ${HOME}/macros $*
+	hlasm --macrobase ../macros $*
 
 # This works only with jHLASM
 %.textj: %.asmj makefile
-	hlasm -v --long --respect --xsd --macrobase ${HOME}/macros \
+	hlasm -v --long --respect --xsd --macrobase ../macros \
 		--listingfile $*.listj --objectfile $@ \
 		$<
 

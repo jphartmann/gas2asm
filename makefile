@@ -36,6 +36,9 @@ ${INSTALLMAC}:
 install: ${INSTALLBIN}/gas2asm
 install: ${INSTALLBIN}/asmxpnd
 
+install:
+	make -C macros install
+
 MP:=${addprefix ${INSTALLMAC}/,${MACROS}}
 install: ${MP}
 
