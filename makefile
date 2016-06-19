@@ -1,7 +1,7 @@
-# This  directory contains C code for execution on Linux thus it builds
+# This directory contains C code for execution on Linux; thus it builds
 # .o and executables.
 
-# gnu make required.
+# gnu make required.  flex not required unless you change the .l file.
 
 INSTALLBIN:=${HOME}/bin
 INSTALLMAC:=${HOME}/macros
@@ -49,6 +49,7 @@ t: $M
 
 clean:
 	rm -f core *.o $M t.out t.dbg
+	make -C test clean
 
 check: $M
 	(cd test; make)
