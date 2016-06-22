@@ -3,9 +3,13 @@
 
 # gnu make required.  flex not required unless you change the .l file.
 
+.SUFFIXES: .maclib .macro
+.PHONY: m
+
 INSTALLBIN:=${HOME}/bin
 INSTALLMAC:=${HOME}/macros
-MACROS:=${notdir ${wildcard macros/*.macro}}
+MACS:=${wildcard macros/*.macro}
+MACROS:=${notdir ${MACS}}
 
 CFLAGS:=-g -Wall -Werror
 YFLAGS:=-Wall -Werror
@@ -17,15 +21,18 @@ ${INSTALLMAC}/%: macros/%
 	cp -p $< $@
 
 M:=gas2asm asmxpnd
-all: $M
+ML:=../cmslib-exec/fplg2a.maclib
+all: $M m
+
+m: ${ML}
+
+${ML}: ${MACS}
+	maclib ${ML} ${MACS}
 
 # Ensure that the generated flex output stays.	OpenSuse 11 ships a
 # broken flex that mangles things somewhat royal.
 gas2asm.c: gas2asm.l
 gas2asm.o: gas2asm.c symtab.c loadfile.c le128.c lookup3.c gas2asmmain.c
-
-install: | ${INSTALLBIN}
-install: | ${INSTALLMAC}
 
 ${INSTALLBIN}:
 	mkdir -p ${INSTALLBIN}
@@ -33,14 +40,10 @@ ${INSTALLBIN}:
 ${INSTALLMAC}:
 	mkdir -p ${INSTALLMAC}
 
-install: ${INSTALLBIN}/gas2asm
-install: ${INSTALLBIN}/asmxpnd
-
-install:
-	make -C macros install
+install: ${INSTALLBIN}/gas2asm ${INSTALLBIN}/asmxpnd | ${INSTALLBIN}
 
 MP:=${addprefix ${INSTALLMAC}/,${MACROS}}
-install: ${MP}
+install-macros: ${MP} | ${INSTALLMAC}
 
 .PHONY: say
 say:
