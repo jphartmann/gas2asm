@@ -53,7 +53,6 @@ enum sectiontype
 static int lineno=1;
 static int slen;
 static char algs[]="??h?f???d";
-static char atype[10];
 #define NUMF 32
 static char * files[NUMF];
 static char ** sources;               /* File 1                      */
@@ -90,10 +89,10 @@ hashlittle( const void *key, size_t length, unsigned int initval);
 %option warn batch nodefault noinput debug
 
 /* 1     2     3      4      5     6    7       8     9     10        */
-%x xfile xskip xmacop xasmop xmach xstr xstring xlong xdefs xglob
+%x xfile xskip xmacop xasmop xmach xstr xstring xun1  xdefs xglob
 
-/* 11    12     13   14     15   16   17    18                       */
-%x xquad xfiled xloc xdebug xule xsle xcomm xword
+/* 11    12     13   14     15   16   17    18    19   20            */
+%x xquad xfiled xloc xdebug xule xsle xcomm xun2  xprs xgotname
 
 B                             [ ]+|[\t]
 S                             [ \t\r]+
@@ -183,13 +182,22 @@ INT                           [-+]?[[:digit:]]+
                                  printf(" dc 0%c\n", algs[0xf & yytext[yyleng-1]]);
                                  BEGIN(INITIAL);
                               }
-"byte"{S}                     strcpy(atype, "al1"); BEGIN(xlong);
-   /* Negative Y values attract ASMA072                              */
+"byte"{S}                     {
+                                 printf(" dc al1(");
+                                 BEGIN(xprs);
+                              }
+   /* Negative relocatable(?) Y values attract ASMA072               */
 "word"{S}                     |
 "2byte"{S}                    |
-"short"{S}                    strcpy(atype, "y"); BEGIN(xword);
+"short"{S}                    {
+                                 printf(" dc y(");
+                                 BEGIN(xprs);
+                              }
 "4byte"{S}                    |
-"long"{S}                     strcpy(atype, "a"); BEGIN(xlong);
+"long"{S}                     {
+                                 printf(" dc a(");
+                                 BEGIN(xprs);
+                              }
 "comm"                        BEGIN(xcomm);
 "local"                       printf(" @%-7s ", yytext); BEGIN(xdefs);
 "size"                        printf(" @%-7s ", yytext); BEGIN(xmach);
@@ -242,18 +250,31 @@ INT                           [-+]?[[:digit:]]+
 ,                             printf(","); BEGIN(xmacop);
 }
 
-<xword>{
-{INT}/\n                      printf(" dc h'%s'\n", yytext); BEGIN(INITIAL);
-}
-
-<xlong,xword>{
-"-2147483648"                 dohash(); printf(" dc %s(x'80000000')\n", atype); BEGIN(INITIAL);
+   /* Expression list in an A-type DC instruction                    */
+<xprs>{
+\n                            printf(")\n"); lineno++; BEGIN(INITIAL);
+[()-]                         printf("%c", yytext[0]);
+[.]{IDENT}/@                  dohash(); printf("%s-", yytext);
+[.]{IDENT}                    dohash(); printf("%s", yytext);
+{IDENT}/@                     refsymbol(); printf("%s-", yytext);
+{IDENT}                       refsymbol(); printf("%s", yytext);
+@{IDENT}                      printf("%s", yytext);
+"0x"[[:xdigit:]]+             printf("x'%s%s'", (1 & yyleng ? "0" : ""), yytext + 2);
+"-2147483648"                 printf("x'80000000'");
+"_GLOBAL_OFFSET_TABLE_-"      printf("0) Offset to GOT, which does not exist\n"); BEGIN(xgotname);
+{INT}                         printf("%s", yytext);
+   /* What are these?  They'll get you errors                        */
 "__fixdfsi"/\n                printf(" dc v(__fxdfsi)\n"); BEGIN(INITIAL);
 "__floatsidf"/\n              printf(" dc v(__flsidf)\n"); BEGIN(INITIAL);
-[.]{IDENT}/\n                 dohash(); printf(" dc %s(#%s)\n", atype, yytext+1); BEGIN(INITIAL);
-{IDENT}/\n                    refsymbol();
-"0x"[[:xdigit:]]+             dohash(); printf(" dc %s(x'%s%s')\n", atype, (1 & yyleng ? "0" : ""), yytext + 2); BEGIN(INITIAL);
-[^ \t\n,]+                    dohash(); printf(" dc %s(%s)\n", atype, yytext); BEGIN(INITIAL);
+}
+
+<xgotname>{
+[.]{IDENT}                    {
+                                 dohash();
+                                 printf("@PLTOFF EQU %s\n", yytext);
+                                 printf("@GOTOFF EQU %s\n", yytext);
+                                 BEGIN(INITIAL);
+                              }
 }
 
    /* Machine  instruction.   Use only float registers 0-3 and remap */

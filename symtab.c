@@ -63,8 +63,6 @@ static void
 refsymbol(void)
 {
    readyveh(referenced);
-   printf(" @ptr  %s,%s\n", atype, yytext);
-   BEGIN(INITIAL);
 }
 
 static void

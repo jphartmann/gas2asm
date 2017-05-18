@@ -48,6 +48,58 @@
 /*28 Jan 2015  New module.                                           */
 /*********************************************************************/
 
+/*********************************************************************/
+/* On GOT, the global offset table.                                  */
+/*                                                                   */
+/* This  is  a  lot of hot air.  As the dynamic loader has to modify */
+/* the constants area with the origin of the GOT, nothing is gained. */
+/* This is how it works:                                             */
+#if 0
+ BASR    %R13,0               #
+.L11:    ANOP  ,
+ ...
+ L       %R12,.L12-.L11(%R13) #,
+ LA      %R12,0(%R12,%R13)    #,
+
+ L       %R1,.L15-.L11(%R13)  # tmp82,
+ LA      %R3,0(%R1,%R12)      #,
+ L       %R2,76(%R2)          #, _25->prealloc
+ L       %R1,.L16-.L11(%R13)  # tmp83,
+ BAS     %R14,0(%R1,%R12)     #,
+
+.L16:    ANOP  ,
+ .long fprintf@PLTOFF
+.L15:
+ .long .LC2@GOTOFF
+.L12:
+ .long _GLOBAL_OFFSET_TABLE_-.L11
+#endif
+/* Rewritten with a USING:                                           */
+#if 0
+ BASR    %R13,0               #
+ .l11 equ *
+ using   *,%r13
+ ...
+ L       %R12,.L12
+ LA      %R12,0(%R12,%R13)    #,
+
+ L       %R1,.L15
+ LA      %R3,0(%R1,%R12)      #,
+ ...
+ L       %R1,.L16
+ BAS     %R14,0(%R1,%R12)     #,
+
+.L16:    ANOP  ,
+ .long fprintf@PLTOFF
+.L15:
+ .long .LC2@GOTOFF
+.L12:
+ .long _GLOBAL_OFFSET_TABLE_-.L11
+#endif
+/* Making  the  GOT  equal  to  the  local  base,  we need to change */
+/* fprintf@PLTOFF to fprintf-@PLTOFF and equate @PLTOFF to GOT       */
+/*********************************************************************/
+
 
 /* Forward declarations in gas2asm.l                                 */
 

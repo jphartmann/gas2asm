@@ -4,15 +4,14 @@
 
 OLD_SHELL:=${SHELL}
 # SHELL=$(warning [target: $@  modified: ($?)])$(OLD_SHELL)
+MOD := ../gas2asm
+XPD := ../asmxpnd
 
-%.assemble: %.s
-	((../gas2asm <$< | ../asmxpnd >$@) || (mv $@ $*.asm; exit 1))
+%.assemble: %.s ${MOD} ${XPD}
+	((${MOD} <$< | ${XPD} >$@) || (mv $@ $*.asm; exit 1))
 
-%.asmj: %.s
-	((../gas2asm -j <$< | ../asmxpnd >$@) || (mv $@ $*.asmjx; exit 1))
-
-*.assemble: ../asmxpnd ../gas2asm
-*.asmj: ../asmxpnd ../gas2asm
+%.asmj: %.s ${MOD}  ${XPD}
+	((${MOD} -j <$< | ${XPD} >$@) || (mv $@ $*.asmjx; exit 1))
 
 check: all
 	cat *.assemble *.asmj >check.asm
@@ -23,6 +22,7 @@ ok:
 	mv check.asm check.asmok
 
 all: dummy.assemble
+all: wc.assemble
 all: deflate.assemble
 all: deflate.asmj
 all: pcre_byte_order.assemble

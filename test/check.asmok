@@ -41,105 +41,105 @@ deflate_copyright equ *
  @size    configuration_table,120
 configuration_table equ *
 *  good_length:
- dc h'0'
+ dc y(0)
 *  max_lazy:
- dc h'0'
+ dc y(0)
 *  nice_length:
- dc h'0'
+ dc y(0)
 *  max_chain:
- dc h'0'
+ dc y(0)
 *  func:
- @ptr  a,deflate_stored
+ dc a(deflate_stored)
 *  good_length:
- dc h'4'
+ dc y(4)
 *  max_lazy:
- dc h'4'
+ dc y(4)
 *  nice_length:
- dc h'8'
+ dc y(8)
 *  max_chain:
- dc h'4'
+ dc y(4)
 *  func:
- @ptr  a,deflate_fast
+ dc a(deflate_fast)
 *  good_length:
- dc h'4'
+ dc y(4)
 *  max_lazy:
- dc h'5'
+ dc y(5)
 *  nice_length:
- dc h'16'
+ dc y(16)
 *  max_chain:
- dc h'8'
+ dc y(8)
 *  func:
- @ptr  a,deflate_fast
+ dc a(deflate_fast)
 *  good_length:
- dc h'4'
+ dc y(4)
 *  max_lazy:
- dc h'6'
+ dc y(6)
 *  nice_length:
- dc h'32'
+ dc y(32)
 *  max_chain:
- dc h'32'
+ dc y(32)
 *  func:
- @ptr  a,deflate_fast
+ dc a(deflate_fast)
 *  good_length:
- dc h'4'
+ dc y(4)
 *  max_lazy:
- dc h'4'
+ dc y(4)
 *  nice_length:
- dc h'16'
+ dc y(16)
 *  max_chain:
- dc h'16'
+ dc y(16)
 *  func:
- @ptr  a,deflate_slow
+ dc a(deflate_slow)
 *  good_length:
- dc h'8'
+ dc y(8)
 *  max_lazy:
- dc h'16'
+ dc y(16)
 *  nice_length:
- dc h'32'
+ dc y(32)
 *  max_chain:
- dc h'32'
+ dc y(32)
 *  func:
- @ptr  a,deflate_slow
+ dc a(deflate_slow)
 *  good_length:
- dc h'8'
+ dc y(8)
 *  max_lazy:
- dc h'16'
+ dc y(16)
 *  nice_length:
- dc h'128'
+ dc y(128)
 *  max_chain:
- dc h'128'
+ dc y(128)
 *  func:
- @ptr  a,deflate_slow
+ dc a(deflate_slow)
 *  good_length:
- dc h'8'
+ dc y(8)
 *  max_lazy:
- dc h'32'
+ dc y(32)
 *  nice_length:
- dc h'128'
+ dc y(128)
 *  max_chain:
- dc h'256'
+ dc y(256)
 *  func:
- @ptr  a,deflate_slow
+ dc a(deflate_slow)
 *  good_length:
- dc h'32'
+ dc y(32)
 *  max_lazy:
- dc h'128'
+ dc y(128)
 *  nice_length:
- dc h'258'
+ dc y(258)
 *  max_chain:
- dc h'1024'
+ dc y(1024)
 *  func:
- @ptr  a,deflate_slow
+ dc a(deflate_slow)
 *  good_length:
- dc h'32'
+ dc y(32)
 *  max_lazy:
- dc h'258'
+ dc y(258)
 *  nice_length:
- dc h'258'
+ dc y(258)
 *  max_chain:
- dc h'4096'
+ dc y(4096)
 *  func:
- @ptr  a,deflate_slow
+ dc a(deflate_slow)
  @text
  dc 0f
  @type    deflateInit_,@function
@@ -178,7 +178,7 @@ deflateInit_ equ *
  dc 0f
  
 #L4 equ *
- @ptr  a,deflateInit2_
+ dc a(deflateInit2_)
  dc 0h
  
 #LFE2 equ *
@@ -544,19 +544,19 @@ deflateInit2_ equ *
  dc 0f
  
 #L29 equ *
- @ptr  a,deflateReset
+ dc a(deflateReset)
 #L28 equ *
- @ptr  a,deflateEnd
+ dc a(deflateEnd)
 #L27 equ *
- @ptr  a,z_errmsg
+ dc a(z_errmsg)
 #L26 equ *
- @ptr  a,zcfree
+ dc a(zcfree)
 #L25 equ *
- @ptr  a,zcalloc
+ dc a(zcalloc)
 #L24 equ *
  dc a(255)
 #L23 equ *
- @ptr  a,my_version#1893
+ dc a(my_version#1893)
  dc 0h
  
 #LFE3 equ *
@@ -828,13 +828,13 @@ deflateSetDictionary equ *
 #L49 equ *
  dc a(255)
 #L48 equ *
- @ptr  a,fill_window
+ dc a(fill_window)
 #L47 equ *
- @ptr  a,memset
+ dc a(memset)
 #L46 equ *
  dc a(2147483647)
 #L45 equ *
- @ptr  a,adler32
+ dc a(adler32)
  dc 0h
  
 #LFE4 equ *
@@ -960,11 +960,11 @@ deflateResetKeep equ *
  dc 0f
  
 #L64 equ *
- @ptr  a,_tr_init
+ dc a(_tr_init)
 #L63 equ *
- @ptr  a,adler32
+ dc a(adler32)
 #L62 equ *
- @ptr  a,crc32
+ dc a(crc32)
  dc 0h
  
 #LFE5 equ *
@@ -1004,9 +1004,9 @@ deflateReset equ *
  dc 0f
  
 #L70 equ *
- @ptr  a,lm_init
+ dc a(lm_init)
 #L69 equ *
- @ptr  a,deflateResetKeep
+ dc a(deflateResetKeep)
  dc 0h
  
 #LFE6 equ *
@@ -1223,7 +1223,7 @@ deflatePrime equ *
  dc 0f
  
 #L94 equ *
- @ptr  a,_tr_flush_bits
+ dc a(_tr_flush_bits)
  dc 0h
  
 #LFE9 equ *
@@ -1376,9 +1376,9 @@ deflateParams equ *
 #L109 equ *
  dc a(65535)
 #L108 equ *
- @ptr  a,deflate
+ dc a(deflate)
 #L107 equ *
- @ptr  a,configuration_table
+ dc a(configuration_table)
  dc 0h
  
 #LFE10 equ *
@@ -1765,9 +1765,9 @@ flush_pending equ *
  dc 0f
  
 #L150 equ *
- @ptr  a,memcpy
+ dc a(memcpy)
 #L149 equ *
- @ptr  a,_tr_flush_bits
+ dc a(_tr_flush_bits)
  dc 0h
  
 #LFE14 equ *
@@ -1783,33 +1783,33 @@ deflate equ *
  dc 0f
  
 #L264 equ *
- @ptr  a,memset
+ dc a(memset)
 #L263 equ *
  dc a(2147483647)
 #L262 equ *
- @ptr  a,_tr_stored_block
+ dc a(_tr_stored_block)
 #L261 equ *
- @ptr  a,_tr_align
+ dc a(_tr_align)
 #L260 equ *
- @ptr  a,configuration_table
+ dc a(configuration_table)
 #L259 equ *
- @ptr  a,deflate_rle
+ dc a(deflate_rle)
 #L258 equ *
- @ptr  a,deflate_huff
+ dc a(deflate_huff)
 #L257 equ *
  dc a(255)
 #L256 equ *
- @ptr  a,flush_pending
+ dc a(flush_pending)
 #L255 equ *
- @ptr  a,adler32
+ dc a(adler32)
 #L254 equ *
  dc a(65535)
 #L253 equ *
- @ptr  a,putShortMSB
+ dc a(putShortMSB)
 #L252 equ *
- @ptr  a,crc32
+ dc a(crc32)
 #L251 equ *
- @ptr  a,z_errmsg
+ dc a(z_errmsg)
  dc 0h
  
 #L265 equ *
@@ -3652,9 +3652,9 @@ deflateCopy equ *
  dc 0f
  
 #L289 equ *
- @ptr  a,deflateEnd
+ dc a(deflateEnd)
 #L288 equ *
- @ptr  a,memcpy
+ dc a(memcpy)
  dc 0h
  
 #LFE17 equ *
@@ -3757,11 +3757,11 @@ read_buf equ *
  dc 0f
  
 #L300 equ *
- @ptr  a,crc32
+ dc a(crc32)
 #L299 equ *
- @ptr  a,adler32
+ dc a(adler32)
 #L298 equ *
- @ptr  a,memcpy
+ dc a(memcpy)
  dc 0h
  
 #LFE18 equ *
@@ -3874,9 +3874,9 @@ lm_init equ *
 #L307 equ *
  dc a(65535)
 #L306 equ *
- @ptr  a,configuration_table
+ dc a(configuration_table)
 #L305 equ *
- @ptr  a,memset
+ dc a(memset)
 #L304 equ *
  dc a(2147483647)
  dc 0h
@@ -4631,7 +4631,7 @@ fill_window equ *
  dc 0f
  
 #L349 equ *
- @ptr  a,memset
+ dc a(memset)
 #L348 equ *
  dc a(258)
 #L347 equ *
@@ -4641,11 +4641,11 @@ fill_window equ *
 #L345 equ *
  dc a(2)
 #L344 equ *
- @ptr  a,read_buf
+ dc a(read_buf)
 #L343 equ *
  dc a(65535)
 #L342 equ *
- @ptr  a,memcpy
+ dc a(memcpy)
  dc 0h
  
 #LFE21 equ *
@@ -4968,11 +4968,11 @@ deflate_stored equ *
  dc 0f
  
 #L376 equ *
- @ptr  a,flush_pending
+ dc a(flush_pending)
 #L375 equ *
- @ptr  a,_tr_flush_block
+ dc a(_tr_flush_block)
 #L374 equ *
- @ptr  a,fill_window
+ dc a(fill_window)
 #L373 equ *
  dc a(1)
 #L372 equ *
@@ -5620,15 +5620,15 @@ deflate_fast equ *
  dc 0f
  
 #L414 equ *
- @ptr  a,flush_pending
+ dc a(flush_pending)
 #L413 equ *
- @ptr  a,_tr_flush_block
+ dc a(_tr_flush_block)
 #L412 equ *
- @ptr  a,_dist_code
+ dc a(_dist_code)
 #L411 equ *
- @ptr  a,_length_code
+ dc a(_length_code)
 #L410 equ *
- @ptr  a,longest_match
+ dc a(longest_match)
 #L409 equ *
  dc a(65535)
 #L408 equ *
@@ -5636,7 +5636,7 @@ deflate_fast equ *
 #L407 equ *
  dc a(2)
 #L406 equ *
- @ptr  a,fill_window
+ dc a(fill_window)
 #L405 equ *
  dc a(261)
  dc 0h
@@ -6446,19 +6446,19 @@ deflate_slow equ *
  dc 0f
  
 #L460 equ *
- @ptr  a,flush_pending
+ dc a(flush_pending)
 #L459 equ *
- @ptr  a,_tr_flush_block
+ dc a(_tr_flush_block)
 #L458 equ *
- @ptr  a,_dist_code
+ dc a(_dist_code)
 #L457 equ *
- @ptr  a,_length_code
+ dc a(_length_code)
 #L456 equ *
  dc a(4096)
 #L455 equ *
  dc a(5)
 #L454 equ *
- @ptr  a,longest_match
+ dc a(longest_match)
 #L453 equ *
  dc a(65535)
 #L452 equ *
@@ -6466,7 +6466,7 @@ deflate_slow equ *
 #L451 equ *
  dc a(2)
 #L450 equ *
- @ptr  a,fill_window
+ dc a(fill_window)
 #L449 equ *
  dc a(261)
  dc 0h
@@ -7042,21 +7042,21 @@ deflate_rle equ *
  dc 0f
  
 #L494 equ *
- @ptr  a,flush_pending
+ dc a(flush_pending)
 #L493 equ *
- @ptr  a,_tr_flush_block
+ dc a(_tr_flush_block)
 #L492 equ *
- @ptr  a,_dist_code
+ dc a(_dist_code)
 #L491 equ *
  dc a(65535)
 #L490 equ *
- @ptr  a,_length_code
+ dc a(_length_code)
 #L489 equ *
  dc a(255)
 #L488 equ *
  dc a(2)
 #L487 equ *
- @ptr  a,fill_window
+ dc a(fill_window)
 #L486 equ *
  dc a(258)
  dc 0h
@@ -7354,11 +7354,11 @@ deflate_huff equ *
  dc 0f
  
 #L516 equ *
- @ptr  a,flush_pending
+ dc a(flush_pending)
 #L515 equ *
- @ptr  a,_tr_flush_block
+ dc a(_tr_flush_block)
 #L514 equ *
- @ptr  a,fill_window
+ dc a(fill_window)
  dc 0h
  
 #LFE26 equ *
@@ -8629,11 +8629,11 @@ pcre_pattern_to_host_byte_order equ *
 #L26 equ *
  dc a(255)
 #L25 equ *
- @ptr  a,swap_uint16
+ dc a(swap_uint16)
 #L24 equ *
  dc a(65535)
 #L23 equ *
- @ptr  a,swap_uint32
+ dc a(swap_uint32)
 #L22 equ *
  dc a(1163019088)
 #L21 equ *
@@ -8851,15 +8851,15 @@ main equ *
  dc 0f
  
 #L10 equ *
- @ptr  a,regression_tests
+ dc a(regression_tests)
 #L9 equ *
- @ptr  a,fwrite
+ dc a(fwrite)
 #L8 equ *
  dc a(#LC2)
 #L7 equ *
- @ptr  a,__getgbl
+ dc a(__getgbl)
 #L6 equ *
- @ptr  a,pcre_config
+ dc a(pcre_config)
  dc 0h
  
 #LFE2 equ *
@@ -16614,19 +16614,19 @@ tables equ *
  dc 0f
  
 #L27 equ *
- @ptr  a,memcpy
+ dc a(memcpy)
 #L26 equ *
- @ptr  a,malloc
+ dc a(malloc)
 #L25 equ *
- @ptr  a,pcre_free
+ dc a(pcre_free)
 #L24 equ *
- @ptr  a,pcre_fullinfo
+ dc a(pcre_fullinfo)
 #L23 equ *
- @ptr  a,pcre_compile
+ dc a(pcre_compile)
 #L22 equ *
- @ptr  a,free
+ dc a(free)
 #L21 equ *
- @ptr  a,tables_copy#2985
+ dc a(tables_copy#2985)
  dc 0h
  
 #LFE3 equ *
@@ -16689,11 +16689,11 @@ getstack8 equ *
  dc 0f
  
 #L37 equ *
- @ptr  a,pcre_jit_stack_alloc
+ dc a(pcre_jit_stack_alloc)
 #L36 equ *
  dc a(1048576)
 #L35 equ *
- @ptr  a,stack8
+ dc a(stack8)
  dc 0h
  
 #LFE5 equ *
@@ -16751,15 +16751,15 @@ setstack8 equ *
  dc 0f
  
 #L48 equ *
- @ptr  a,pcre_assign_jit_stack
+ dc a(pcre_assign_jit_stack)
 #L47 equ *
- @ptr  a,callback8
+ dc a(callback8)
 #L46 equ *
- @ptr  a,getstack8
+ dc a(getstack8)
 #L45 equ *
- @ptr  a,pcre_jit_stack_free
+ dc a(pcre_jit_stack_free)
 #L44 equ *
- @ptr  a,stack8
+ dc a(stack8)
  dc 0h
  
 #LFE6 equ *
@@ -17829,9 +17829,9 @@ regression_tests equ *
 #L155 equ *
  dc a(#LC914)
 #L154 equ *
- @ptr  a,fflush
+ dc a(fflush)
 #L153 equ *
- @ptr  a,fputc
+ dc a(fputc)
 #L152 equ *
  dc a(#LC910)
 #L151 equ *
@@ -17851,41 +17851,41 @@ regression_tests equ *
 #L144 equ *
  dc a(4194304)
 #L143 equ *
- @ptr  a,memset
+ dc a(memset)
 #L142 equ *
- @ptr  a,pcre_jit_exec
+ dc a(pcre_jit_exec)
 #L141 equ *
- @ptr  a,getstack8
+ dc a(getstack8)
 #L140 equ *
- @ptr  a,pcre_exec
+ dc a(pcre_exec)
 #L139 equ *
  dc a(402695552)
 #L138 equ *
  dc a(65535)
 #L137 equ *
- @ptr  a,strlen
+ dc a(strlen)
 #L136 equ *
  dc a(255)
 #L135 equ *
- @ptr  a,setstack8
+ dc a(setstack8)
 #L134 equ *
  dc a(#LC894)
 #L133 equ *
- @ptr  a,pcre_free_study
+ dc a(pcre_free_study)
 #L132 equ *
  dc a(#LC891)
 #L131 equ *
  dc a(64)
 #L130 equ *
- @ptr  a,pcre_free
+ dc a(pcre_free)
 #L129 equ *
  dc a(#LC888)
 #L128 equ *
- @ptr  a,pcre_study
+ dc a(pcre_study)
 #L127 equ *
- @ptr  a,pcre_compile
+ dc a(pcre_compile)
 #L126 equ *
- @ptr  a,tables
+ dc a(tables)
 #L125 equ *
  dc a(-1)
 #L124 equ *
@@ -17897,7 +17897,7 @@ regression_tests equ *
 #L121 equ *
  dc a(32768)
 #L120 equ *
- @ptr  a,check_ascii
+ dc a(check_ascii)
 #L119 equ *
  dc a(2097152)
 #L118 equ *
@@ -17907,19 +17907,19 @@ regression_tests equ *
 #L116 equ *
  dc a(#LC878)
 #L115 equ *
- @ptr  a,fprintf
+ dc a(fprintf)
 #L114 equ *
  dc a(#LC875)
 #L113 equ *
- @ptr  a,fwrite
+ dc a(fwrite)
 #L112 equ *
  dc a(#LC872)
 #L111 equ *
- @ptr  a,__getgbl
+ dc a(__getgbl)
 #L110 equ *
- @ptr  a,pcre_config
+ dc a(pcre_config)
 #L109 equ *
- @ptr  a,regression_test_cases
+ dc a(regression_test_cases)
  dc 0h
  
 #LFE8 equ *
@@ -18208,6 +18208,194 @@ pcre_study equ $a1mvz2
  extrn strlen
  @end
  end
+ @file    wc
+*  GNU C11 (Ubuntu 5.4.0-6ubuntu1~16.04.2) version 5.4.0 20160609 (s390+
+               x-linux-gnu)
+* 	compiled by GNU C version 5.4.0 20160609, GMP version 6.1.0, MPFR ve+
+               rsion 3.1.4, MPC version 1.0.3
+*  GGC heuristics: --param ggc-min-expand=84 --param ggc-min-heapsize=1+
+               01661
+*  options passed:  -nostdinc -I . -I ../include -imultilib 32
+*  -imultiarch s390-linux-gnu -D __ZVM__ -D __CMS__ -U __gnu_linux__ wc+
+               .c
+*  -m31 -march=g5 -mesa -auxbase-strip z/wc.s -g -O -Wall -Werror
+*  -Wno-pointer-sign -Wformat=0 -fno-use-linker-plugin -fverbose-asm
+*  -fexec-charset=IBM-1047 -fstack-protector-strong
+*  options enabled:  -fPIC -fPIE -faggressive-loop-optimizations
+*  -fasynchronous-unwind-tables -fauto-inc-dec -fbranch-count-reg
+*  -fchkp-check-incomplete-type -fchkp-check-read -fchkp-check-write
+*  -fchkp-instrument-calls -fchkp-narrow-bounds -fchkp-optimize
+*  -fchkp-store-bounds -fchkp-use-static-bounds
+*  -fchkp-use-static-const-bounds -fchkp-use-wrappers
+*  -fcombine-stack-adjustments -fcommon -fcompare-elim -fcprop-register+
+               s
+*  -fdefer-pop -fdelete-null-pointer-checks -fdwarf2-cfi-asm
+*  -fearly-inlining -feliminate-unused-debug-types -fforward-propagate
+*  -ffunction-cse -fgcse-lm -fgnu-runtime -fgnu-unique
+*  -fguess-branch-probability -fident -fif-conversion -fif-conversion2
+*  -finline -finline-atomics -finline-functions-called-once -fipa-profi+
+               le
+*  -fipa-pure-const -fipa-reference -fira-hoist-pressure
+*  -fira-share-save-slots -fira-share-spill-slots -fivopts
+*  -fkeep-static-consts -fleading-underscore -flifetime-dse
+*  -flto-odr-type-merging -fmath-errno -fmerge-constants
+*  -fmerge-debug-strings -fmove-loop-invariants -fomit-frame-pointer
+*  -fpcc-struct-return -fpeephole -fprefetch-loop-arrays
+*  -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+*  -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heurist+
+               ic
+*  -fsched-pressure -fsched-rank-heuristic -fsched-spec
+*  -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-fus+
+               ion
+*  -fsemantic-interposition -fshow-column -fshrink-wrap -fsigned-zeros
+*  -fsplit-ivs-in-unroller -fsplit-wide-types -fssa-phiopt
+*  -fstack-protector-strong -fstdarg-opt -fstrict-volatile-bitfields
+*  -fsync-libcalls -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp
+*  -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+*  -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+*  -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+*  -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+*  -ftree-parallelize-loops= -ftree-phiprop -ftree-pta -ftree-reassoc
+*  -ftree-scev-cprop -ftree-sink -ftree-slsr -ftree-sra -ftree-ter
+*  -funit-at-a-time -funwind-tables -fvar-tracking
+*  -fvar-tracking-assignments -fverbose-asm -fzero-initialized-in-bss -+
+               m31
+*  -mbranch-cost= -mesa -mglibc -mhard-float -mhtm -mlong-double-128 -m+
+               lra
+*  -mvx
+ @text
+#Ltext0 equ *
+ @section #rodata#str1#2,'aMS',@progbits,1
+ dc 0h
+#LC2 equ *
+ dc x'6c84406c84406c842500'
+ @text
+ dc 0d
+ @type    main,@function
+main equ *
+#LFB0 equ *
+ @fileix 1,wc.c
+ @loc  1,16,0
+#LVL0 equ *
+   stm  6,15,24(15) ,,
+   basr  13,0 
+#L11 equ *
+   ahi  15,-96 ,
+   l  12,#L12-#L11(13) ,
+   la  12,0(12,13) ,
+#LVL1 equ *
+ @loc  1,20,0
+   lhi  8,0  inword,
+ @loc  1,19,0
+   lhi  10,0  lines,
+ @loc  1,18,0
+   lhi  9,0  words,
+ @loc  1,17,0
+   lhi  6,0  chars,
+ @loc  1,22,0
+   l  11,#L13-#L11(13)  tmp85,
+   j  #L2 
+#LVL2 equ *
+#L7 equ *
+#LBB2 equ *
+ @loc  1,24,0
+   l  1,#L13-#L11(13)  tmp76,
+   bas  14,0(1,12) ,
+#LVL3 equ *
+   l  2,72(2) , _17->prealloc
+   l  1,#L14-#L11(13)  tmp77,
+   bas  14,0(1,12) ,
+#LVL4 equ *
+ @loc  1,25,0
+   chi  2,37  c,
+   je  #L4 ,
+   chi  2,64  c,
+   je  #L8 ,
+   chi  2,-1  c,
+   jne  #L9 ,
+   j  #L6 
+#L4 equ *
+ @loc  1,28,0
+   ahi  10,1  lines,
+#LVL5 equ *
+ @loc  1,30,0
+   lhi  8,0  inword,
+#LVL6 equ *
+   j  #L5 
+#LVL7 equ *
+#L9 equ *
+ @loc  1,35,0
+   ltr  8,8  inword
+   jne  #L5 ,
+#LVL8 equ *
+ @loc  1,37,0
+   ahi  9,1  words,
+#LVL9 equ *
+ @loc  1,36,0
+   lhi  8,1  inword,
+   j  #L5 
+#LVL10 equ *
+#L8 equ *
+ @loc  1,30,0
+   lhi  8,0  inword,
+#LVL11 equ *
+#L5 equ *
+ @loc  1,39,0
+   ahi  6,1  chars,
+#LVL12 equ *
+#L2 equ *
+#LBE2 equ *
+ @loc  1,22,0
+   bas  14,0(11,12) ,
+#LVL13 equ *
+   l  1,72(2)  _12->prealloc, _12->prealloc
+   tm  93(1),128  *_13,
+   je  #L7 ,
+#L6 equ *
+ @loc  1,43,0
+   l  1,#L13-#L11(13)  tmp81,
+   bas  14,0(1,12) ,
+#LVL14 equ *
+   lr  5,9 , words
+   lr  4,10 , lines
+   l  1,#L15-#L11(13)  tmp82,
+   la  3,0(1,12) ,
+   l  2,76(2) , _25->prealloc
+   l  1,#L16-#L11(13)  tmp83,
+   bas  14,0(1,12) ,
+#LVL15 equ *
+ @loc  1,45,0
+   lhi  2,0 ,
+   l  4,152(15) ,
+   lm  6,15,120(15) ,,
+#LVL16 equ *
+   br  4 
+ dc 0f
+ 
+#L16 equ *
+ dc a(fprintf-@PLTOFF)
+#L15 equ *
+ dc a(#LC2-@GOTOFF)
+#L14 equ *
+ dc a(fgetc-@PLTOFF)
+#L13 equ *
+ dc a(__getgbl-@PLTOFF)
+#L12 equ *
+ dc a(0) Offset to GOT, which does not exist
+@PLTOFF EQU #L11
+@GOTOFF EQU #L11
+ dc 0h
+ 
+#LFE0 equ *
+ @size    main,*-main
+#Letext0 equ *
+ @section #note#GNU-stack,,@progbits
+ extrn __getgbl
+ extrn fgetc
+ extrn fprintf
+ entry main
+ @end
+ end
  @file    deflate
 *  GNU C (SUSE Linux) version 4.3.4 [gcc-4_3-branch revision 152973] (s+
                390x-suse-linux)
@@ -18251,105 +18439,105 @@ deflate_copyright equ *
  @size    configuration_table,120
 configuration_table equ *
 *  good_length:
- dc h'0'
+ dc y(0)
 *  max_lazy:
- dc h'0'
+ dc y(0)
 *  nice_length:
- dc h'0'
+ dc y(0)
 *  max_chain:
- dc h'0'
+ dc y(0)
 *  func:
- @ptr  a,deflate_stored
+ dc a(deflate_stored)
 *  good_length:
- dc h'4'
+ dc y(4)
 *  max_lazy:
- dc h'4'
+ dc y(4)
 *  nice_length:
- dc h'8'
+ dc y(8)
 *  max_chain:
- dc h'4'
+ dc y(4)
 *  func:
- @ptr  a,deflate_fast
+ dc a(deflate_fast)
 *  good_length:
- dc h'4'
+ dc y(4)
 *  max_lazy:
- dc h'5'
+ dc y(5)
 *  nice_length:
- dc h'16'
+ dc y(16)
 *  max_chain:
- dc h'8'
+ dc y(8)
 *  func:
- @ptr  a,deflate_fast
+ dc a(deflate_fast)
 *  good_length:
- dc h'4'
+ dc y(4)
 *  max_lazy:
- dc h'6'
+ dc y(6)
 *  nice_length:
- dc h'32'
+ dc y(32)
 *  max_chain:
- dc h'32'
+ dc y(32)
 *  func:
- @ptr  a,deflate_fast
+ dc a(deflate_fast)
 *  good_length:
- dc h'4'
+ dc y(4)
 *  max_lazy:
- dc h'4'
+ dc y(4)
 *  nice_length:
- dc h'16'
+ dc y(16)
 *  max_chain:
- dc h'16'
+ dc y(16)
 *  func:
- @ptr  a,deflate_slow
+ dc a(deflate_slow)
 *  good_length:
- dc h'8'
+ dc y(8)
 *  max_lazy:
- dc h'16'
+ dc y(16)
 *  nice_length:
- dc h'32'
+ dc y(32)
 *  max_chain:
- dc h'32'
+ dc y(32)
 *  func:
- @ptr  a,deflate_slow
+ dc a(deflate_slow)
 *  good_length:
- dc h'8'
+ dc y(8)
 *  max_lazy:
- dc h'16'
+ dc y(16)
 *  nice_length:
- dc h'128'
+ dc y(128)
 *  max_chain:
- dc h'128'
+ dc y(128)
 *  func:
- @ptr  a,deflate_slow
+ dc a(deflate_slow)
 *  good_length:
- dc h'8'
+ dc y(8)
 *  max_lazy:
- dc h'32'
+ dc y(32)
 *  nice_length:
- dc h'128'
+ dc y(128)
 *  max_chain:
- dc h'256'
+ dc y(256)
 *  func:
- @ptr  a,deflate_slow
+ dc a(deflate_slow)
 *  good_length:
- dc h'32'
+ dc y(32)
 *  max_lazy:
- dc h'128'
+ dc y(128)
 *  nice_length:
- dc h'258'
+ dc y(258)
 *  max_chain:
- dc h'1024'
+ dc y(1024)
 *  func:
- @ptr  a,deflate_slow
+ dc a(deflate_slow)
 *  good_length:
- dc h'32'
+ dc y(32)
 *  max_lazy:
- dc h'258'
+ dc y(258)
 *  nice_length:
- dc h'258'
+ dc y(258)
 *  max_chain:
- dc h'4096'
+ dc y(4096)
 *  func:
- @ptr  a,deflate_slow
+ dc a(deflate_slow)
  @text
  dc 0f
  @type    deflateInit_,@function
@@ -18388,7 +18576,7 @@ deflateInit_ equ *
  dc 0f
  
 #L4 equ *
- @ptr  a,deflateInit2_
+ dc a(deflateInit2_)
  dc 0h
  
 #LFE2 equ *
@@ -18754,19 +18942,19 @@ deflateInit2_ equ *
  dc 0f
  
 #L29 equ *
- @ptr  a,deflateReset
+ dc a(deflateReset)
 #L28 equ *
- @ptr  a,deflateEnd
+ dc a(deflateEnd)
 #L27 equ *
- @ptr  a,z_errmsg
+ dc a(z_errmsg)
 #L26 equ *
- @ptr  a,zcfree
+ dc a(zcfree)
 #L25 equ *
- @ptr  a,zcalloc
+ dc a(zcalloc)
 #L24 equ *
  dc a(255)
 #L23 equ *
- @ptr  a,my_version#1893
+ dc a(my_version#1893)
  dc 0h
  
 #LFE3 equ *
@@ -19038,13 +19226,13 @@ deflateSetDictionary equ *
 #L49 equ *
  dc a(255)
 #L48 equ *
- @ptr  a,fill_window
+ dc a(fill_window)
 #L47 equ *
- @ptr  a,memset
+ dc a(memset)
 #L46 equ *
  dc a(2147483647)
 #L45 equ *
- @ptr  a,adler32
+ dc a(adler32)
  dc 0h
  
 #LFE4 equ *
@@ -19170,11 +19358,11 @@ deflateResetKeep equ *
  dc 0f
  
 #L64 equ *
- @ptr  a,_tr_init
+ dc a(_tr_init)
 #L63 equ *
- @ptr  a,adler32
+ dc a(adler32)
 #L62 equ *
- @ptr  a,crc32
+ dc a(crc32)
  dc 0h
  
 #LFE5 equ *
@@ -19214,9 +19402,9 @@ deflateReset equ *
  dc 0f
  
 #L70 equ *
- @ptr  a,lm_init
+ dc a(lm_init)
 #L69 equ *
- @ptr  a,deflateResetKeep
+ dc a(deflateResetKeep)
  dc 0h
  
 #LFE6 equ *
@@ -19433,7 +19621,7 @@ deflatePrime equ *
  dc 0f
  
 #L94 equ *
- @ptr  a,_tr_flush_bits
+ dc a(_tr_flush_bits)
  dc 0h
  
 #LFE9 equ *
@@ -19586,9 +19774,9 @@ deflateParams equ *
 #L109 equ *
  dc a(65535)
 #L108 equ *
- @ptr  a,deflate
+ dc a(deflate)
 #L107 equ *
- @ptr  a,configuration_table
+ dc a(configuration_table)
  dc 0h
  
 #LFE10 equ *
@@ -19975,9 +20163,9 @@ flush_pending equ *
  dc 0f
  
 #L150 equ *
- @ptr  a,memcpy
+ dc a(memcpy)
 #L149 equ *
- @ptr  a,_tr_flush_bits
+ dc a(_tr_flush_bits)
  dc 0h
  
 #LFE14 equ *
@@ -19993,33 +20181,33 @@ deflate equ *
  dc 0f
  
 #L264 equ *
- @ptr  a,memset
+ dc a(memset)
 #L263 equ *
  dc a(2147483647)
 #L262 equ *
- @ptr  a,_tr_stored_block
+ dc a(_tr_stored_block)
 #L261 equ *
- @ptr  a,_tr_align
+ dc a(_tr_align)
 #L260 equ *
- @ptr  a,configuration_table
+ dc a(configuration_table)
 #L259 equ *
- @ptr  a,deflate_rle
+ dc a(deflate_rle)
 #L258 equ *
- @ptr  a,deflate_huff
+ dc a(deflate_huff)
 #L257 equ *
  dc a(255)
 #L256 equ *
- @ptr  a,flush_pending
+ dc a(flush_pending)
 #L255 equ *
- @ptr  a,adler32
+ dc a(adler32)
 #L254 equ *
  dc a(65535)
 #L253 equ *
- @ptr  a,putShortMSB
+ dc a(putShortMSB)
 #L252 equ *
- @ptr  a,crc32
+ dc a(crc32)
 #L251 equ *
- @ptr  a,z_errmsg
+ dc a(z_errmsg)
  dc 0h
  
 #L265 equ *
@@ -21862,9 +22050,9 @@ deflateCopy equ *
  dc 0f
  
 #L289 equ *
- @ptr  a,deflateEnd
+ dc a(deflateEnd)
 #L288 equ *
- @ptr  a,memcpy
+ dc a(memcpy)
  dc 0h
  
 #LFE17 equ *
@@ -21967,11 +22155,11 @@ read_buf equ *
  dc 0f
  
 #L300 equ *
- @ptr  a,crc32
+ dc a(crc32)
 #L299 equ *
- @ptr  a,adler32
+ dc a(adler32)
 #L298 equ *
- @ptr  a,memcpy
+ dc a(memcpy)
  dc 0h
  
 #LFE18 equ *
@@ -22084,9 +22272,9 @@ lm_init equ *
 #L307 equ *
  dc a(65535)
 #L306 equ *
- @ptr  a,configuration_table
+ dc a(configuration_table)
 #L305 equ *
- @ptr  a,memset
+ dc a(memset)
 #L304 equ *
  dc a(2147483647)
  dc 0h
@@ -22841,7 +23029,7 @@ fill_window equ *
  dc 0f
  
 #L349 equ *
- @ptr  a,memset
+ dc a(memset)
 #L348 equ *
  dc a(258)
 #L347 equ *
@@ -22851,11 +23039,11 @@ fill_window equ *
 #L345 equ *
  dc a(2)
 #L344 equ *
- @ptr  a,read_buf
+ dc a(read_buf)
 #L343 equ *
  dc a(65535)
 #L342 equ *
- @ptr  a,memcpy
+ dc a(memcpy)
  dc 0h
  
 #LFE21 equ *
@@ -23178,11 +23366,11 @@ deflate_stored equ *
  dc 0f
  
 #L376 equ *
- @ptr  a,flush_pending
+ dc a(flush_pending)
 #L375 equ *
- @ptr  a,_tr_flush_block
+ dc a(_tr_flush_block)
 #L374 equ *
- @ptr  a,fill_window
+ dc a(fill_window)
 #L373 equ *
  dc a(1)
 #L372 equ *
@@ -23830,15 +24018,15 @@ deflate_fast equ *
  dc 0f
  
 #L414 equ *
- @ptr  a,flush_pending
+ dc a(flush_pending)
 #L413 equ *
- @ptr  a,_tr_flush_block
+ dc a(_tr_flush_block)
 #L412 equ *
- @ptr  a,_dist_code
+ dc a(_dist_code)
 #L411 equ *
- @ptr  a,_length_code
+ dc a(_length_code)
 #L410 equ *
- @ptr  a,longest_match
+ dc a(longest_match)
 #L409 equ *
  dc a(65535)
 #L408 equ *
@@ -23846,7 +24034,7 @@ deflate_fast equ *
 #L407 equ *
  dc a(2)
 #L406 equ *
- @ptr  a,fill_window
+ dc a(fill_window)
 #L405 equ *
  dc a(261)
  dc 0h
@@ -24656,19 +24844,19 @@ deflate_slow equ *
  dc 0f
  
 #L460 equ *
- @ptr  a,flush_pending
+ dc a(flush_pending)
 #L459 equ *
- @ptr  a,_tr_flush_block
+ dc a(_tr_flush_block)
 #L458 equ *
- @ptr  a,_dist_code
+ dc a(_dist_code)
 #L457 equ *
- @ptr  a,_length_code
+ dc a(_length_code)
 #L456 equ *
  dc a(4096)
 #L455 equ *
  dc a(5)
 #L454 equ *
- @ptr  a,longest_match
+ dc a(longest_match)
 #L453 equ *
  dc a(65535)
 #L452 equ *
@@ -24676,7 +24864,7 @@ deflate_slow equ *
 #L451 equ *
  dc a(2)
 #L450 equ *
- @ptr  a,fill_window
+ dc a(fill_window)
 #L449 equ *
  dc a(261)
  dc 0h
@@ -25252,21 +25440,21 @@ deflate_rle equ *
  dc 0f
  
 #L494 equ *
- @ptr  a,flush_pending
+ dc a(flush_pending)
 #L493 equ *
- @ptr  a,_tr_flush_block
+ dc a(_tr_flush_block)
 #L492 equ *
- @ptr  a,_dist_code
+ dc a(_dist_code)
 #L491 equ *
  dc a(65535)
 #L490 equ *
- @ptr  a,_length_code
+ dc a(_length_code)
 #L489 equ *
  dc a(255)
 #L488 equ *
  dc a(2)
 #L487 equ *
- @ptr  a,fill_window
+ dc a(fill_window)
 #L486 equ *
  dc a(258)
  dc 0h
@@ -25564,11 +25752,11 @@ deflate_huff equ *
  dc 0f
  
 #L516 equ *
- @ptr  a,flush_pending
+ dc a(flush_pending)
 #L515 equ *
- @ptr  a,_tr_flush_block
+ dc a(_tr_flush_block)
 #L514 equ *
- @ptr  a,fill_window
+ dc a(fill_window)
  dc 0h
  
 #LFE26 equ *
