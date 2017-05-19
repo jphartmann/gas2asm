@@ -19,9 +19,38 @@
 /* "nl"  (0x0b),  "nm" (0x0b), "le" (0x0c), "nh" (0x0d), "np" (0x0d) */
 /* and "no" (0x0e).                                                  */
 /*                                                                   */
+/* Local  symbols: Must still be unique within an assembly, but they */
+/* are not exposed to the rest of the world.                         */
+/*                                                                   */
+/* Global offset table (GOT):                                        */
+/*                                                                   */
+/* As  of  version  5,  gcc  generates what it calls a global offset */
+/* table  for  position independent code.  It also refers to this as */
+/* the program linkage table.                                        */
+/*                                                                   */
+/* This   is  mostly  a  misnomer  since  the  program  still  needs */
+/* modification at load time.  We push it to RLDs.                   */
+/*                                                                   */
+/* However,  note  that  each  function has its own GOT/PLT, so that */
+/* fprintf@PLTOFF  may be different offsets.  So whe need to qualify */
+/* this by the function (or the GOT rather).                         */
+/*                                                                   */
+/* To  do  this  we need to know which function we are in, which was */
+/* only known to the @type macro.  We need to decode that some more. */
+/*                                                                   */
 /* Change activity:                                                  */
 /*15 Jun 2011  +++ Global symbols are not always defined.            */
 /* 8 Jun 2011  New scanner.                                          */
+/*********************************************************************/
+
+/*********************************************************************/
+/* Note  that  some  of  the  processing  is  relegated  to  macros, */
+/* originally a set implementing the assembler directives (much like */
+/* the  original  AT&T  C for OS and CMS).  These all begin @.  Over */
+/* time,  processing  have  been  moved  inboard  as  more cntext or */
+/* whatnot was required.                                             */
+/*                                                                   */
+/* Unused macros are: $ptr.macro                                     */
 /*********************************************************************/
 
 %{
@@ -89,10 +118,10 @@ hashlittle( const void *key, size_t length, unsigned int initval);
 %option warn batch nodefault noinput debug
 
 /* 1     2     3      4      5     6    7       8     9     10        */
-%x xfile xskip xmacop xasmop xmach xstr xstring xun1  xdefs xglob
+%x xfile xskip xmacop xasmop xmach xstr xstring xlong xdefs xglob
 
 /* 11    12     13   14     15   16   17    18    19   20            */
-%x xquad xfiled xloc xdebug xule xsle xcomm xun2  xprs xgotname
+%x xquad xfiled xloc xdebug xule xsle xcomm xun2  xprs
 
 B                             [ ]+|[\t]
 S                             [ \t\r]+
@@ -124,8 +153,12 @@ INT                           [-+]?[[:digit:]]+
    /* This directive switches to the .bss section.                   */
 ^".bss"                       printf("   @bss , \n");
    /* A label.                                                       */
-^"."[[:alnum:]_]+":"          printf("#%.*s equ *\n", yyleng-2, yytext+1);
-^{IDENT}+":"                  yytext[yyleng-1]=0; defsymbol();
+^[.]?{IDENT}+":"              {
+                                 yytext[yyleng - 1] = 0; /* Remove colon */
+                                 dohash();
+                                 defsymbol();
+                                 printf("%s equ *\n", yytext);
+                              }
 ^".globl"{S}                  BEGIN(xglob);
    /* These  guys  are  not  the  long  relative  ops.   Also, avoid */
    /* branching on cc3.                                              */
@@ -168,10 +201,15 @@ INT                           [-+]?[[:digit:]]+
 {IDENT}/\n                    globsymbol();
 }
 
+   /******************************************************************/
+   /* gas directives.  We have seen a dot (.) so far                 */
+   /******************************************************************/
+
 <xasmop>{
 "ident"                       |
 "hidden"                      |
 "cfi"                         BEGIN(xskip);
+
 "type"                        |
 "zero"                        |
 "section"                     printf(" @%-7s ", yytext); BEGIN(xmacop);
@@ -193,8 +231,16 @@ INT                           [-+]?[[:digit:]]+
                                  printf(" dc y(");
                                  BEGIN(xprs);
                               }
-"4byte"{S}                    |
-"long"{S}                     {
+
+   /* There  are  some constants we need to intercept, notably those */
+   /* related  to  the  global  offset table.  We need to find those */
+   /* here before delving into general expressions.                  */
+
+
+   /* Other fullword constants in general:                           */
+
+"long"{S}                     BEGIN(xlong);        /* Decode further */
+"4byte"{S}                    {
                                  printf(" dc a(");
                                  BEGIN(xprs);
                               }
@@ -206,6 +252,54 @@ INT                           [-+]?[[:digit:]]+
 "uleb128"                     BEGIN(xule);
 "sleb128"                     BEGIN(xsle);
 }
+
+   /******************************************************************/
+   /* .long 4-byte address constant.                                 */
+   /*                                                                */
+   /* To process special constants we assume: (a) only one operand   */
+   /******************************************************************/
+
+<xlong>{
+   /* .long _GLOBAL_OFFSET_TABLE_-.L3                                */
+
+"_GLOBAL_OFFSET_TABLE_-"[.]{IDENT} {
+                                 char * hyp = strchr(yytext, '-');
+
+                                 dohash();
+                                 printf(" @gotorg %s\n", hyp + 1);
+                                 BEGIN(INITIAL);
+                              }
+   /* .long environ@GOT                                              */
+   /* .long .LC6@GOTOFF                                              */
+   /* .long .LC12@GOTOFF+7                                           */
+   /* .long fprintf@PLTOFF                                           */
+
+[.]?{IDENT}/[@]               {
+                                 dohash();
+                                 refsymbol();
+                                 printf(" @gotref %s", yytext);
+                              }
+
+[@][[:upper:]]+([+][[:digit:]]+)? {
+                                 char * plus = strchr(yytext, '+');
+                                 int atlen = plus ? plus - (yytext) : yyleng;
+
+                                 printf(",%.*s", atlen, yytext);
+                                 if (plus) printf(",%s", plus);
+                                 printf("\n");
+                                 BEGIN(INITIAL);
+                              }
+   /* .long in general                                               */
+.                             {
+                                 yyless(0);
+                                 printf(" dc a(");
+                                 BEGIN(xprs);
+                              }
+}
+
+   /******************************************************************/
+   /* .loc                                                           */
+   /******************************************************************/
 
 <xloc>{
 [[:digit:]]+                  {
@@ -261,27 +355,17 @@ INT                           [-+]?[[:digit:]]+
 @{IDENT}                      printf("%s", yytext);
 "0x"[[:xdigit:]]+             printf("x'%s%s'", (1 & yyleng ? "0" : ""), yytext + 2);
 "-2147483648"                 printf("x'80000000'");
-"_GLOBAL_OFFSET_TABLE_-"      printf("0) Offset to GOT, which does not exist\n"); BEGIN(xgotname);
 {INT}                         printf("%s", yytext);
    /* What are these?  They'll get you errors                        */
 "__fixdfsi"/\n                printf(" dc v(__fxdfsi)\n"); BEGIN(INITIAL);
 "__floatsidf"/\n              printf(" dc v(__flsidf)\n"); BEGIN(INITIAL);
 }
 
-<xgotname>{
-[.]{IDENT}                    {
-                                 dohash();
-                                 printf("@PLTOFF EQU %s\n", yytext);
-                                 printf("@GOTOFF EQU %s\n", yytext);
-                                 BEGIN(INITIAL);
-                              }
-}
-
    /* Machine  instruction.   Use only float registers 0-3 and remap */
    /* them to the original fp registers.                             */
 
 <xmach>{
-"%"r?                         ;
+"%"[ar]                       ;       /* Access or General register  */
 f[[:digit:]]+                 printf("%s", yytext+1); /* fp register */
 "."?{IDENT}                   dohash(); printf("%s", yytext);
 [[:digit:]]+                  |

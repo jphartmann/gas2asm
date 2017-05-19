@@ -53,10 +53,10 @@ t: $M
 	rm -f core
 	./gas2asm -f <t.s >t.out 2>t.dbg
 
-wc: $M
+test: $M
 	rm -f core
-	./gas2asm -f <wc.s >wc.assemble 2>wc.dbg
-	hlasm --macrobase macros wc
+	./gas2asm -f <test/test.s >test.assemble 2>test.dbg
+	hlasm --macrobase macros test
 
 clean:
 	rm -f core *.o $M t.out t.dbg

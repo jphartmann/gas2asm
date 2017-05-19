@@ -1,9 +1,11 @@
  macro
  @TYPE &name,&what
+ gbla functionindex
  gblb havepcrmode
  aif ('&what' ne '@function').nf
  gblc &fname
 &fname rsect
+&functionindex seta 1+&functionindex
  dc c'>>&name.<<'
  ds 0f
  dc a(*-&fname) Offset to file directory

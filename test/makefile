@@ -7,26 +7,22 @@ OLD_SHELL:=${SHELL}
 MOD := ../gas2asm
 XPD := ../asmxpnd
 
+FNS:=${basename ${wildcard *.s}}
+ASM:=${addsuffix .assemble,${FNS}}
+
 %.assemble: %.s ${MOD} ${XPD}
 	((${MOD} <$< | ${XPD} >$@) || (mv $@ $*.asm; exit 1))
 
 %.asmj: %.s ${MOD}  ${XPD}
 	((${MOD} -j <$< | ${XPD} >$@) || (mv $@ $*.asmjx; exit 1))
 
-check: all
+check: ${ASM}
 	cat *.assemble *.asmj >check.asm
-	diff check.asm check.asmok
+	diff check.asmok check.asm >check.out
 	@echo '>>> all pass <<<'
 
 ok:
 	mv check.asm check.asmok
-
-all: dummy.assemble
-all: wc.assemble
-all: deflate.assemble
-all: deflate.asmj
-all: pcre_byte_order.assemble
-all: pcre_jte.assemble
 
 # This works only if you have a hlasm that runs on the platform
 # --macrobase should point to the directory containing the @file etc. macros

@@ -1,0 +1,10 @@
+ macro
+.*
+.* This file was put into the public domain 2017-05-19
+.* by John P. Hartmann.  You can use it for anything you like,
+.* as long as this notice remains.
+.*
+&l @gotref &sym,&type,&offs
+ gbla functionindex
+ dc a(&sym.-$gotorg$&functionindex&offs.)
+ mend

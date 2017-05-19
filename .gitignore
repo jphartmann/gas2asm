@@ -9,3 +9,5 @@ t.dbg
 *.o
 asmxpnd
 gas2asm
+test/check.asm
+test/check.out

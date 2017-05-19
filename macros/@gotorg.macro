@@ -1,0 +1,11 @@
+ macro
+.*
+.* This file was put into the public domain 2017-05-19
+.* by John P. Hartmann.  You can use it for anything you like,
+.* as long as this notice remains.
+.*
+&l @gotorg &sym
+ gbla functionindex
+ dc a(0)   Global offset table is relative to local literal
+$gotorg$&functionindex equ &sym
+ mend

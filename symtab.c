@@ -43,7 +43,6 @@ static void
 defsymbol(void)
 {
    readyveh(defined);                 /* Remove colon                */
-   printf("%s equ *\n", yytext);
 }
 
 static void
