@@ -108,6 +108,7 @@ static void sle(void);
 static void readyveh(const enum vtype flag);
 static void hashname(char xname [9], char * name);
 static void showmap(const char sname[9], const char * name, const char * what);
+static void dounsigned(void);
 /* End of forward declarations.                                      */
 unsigned int
 hashlittle( const void *key, size_t length, unsigned int initval);
@@ -128,6 +129,7 @@ S                             [ \t\r]+
 SB                            ^{S}
 OPCODE                        [[:alpha:]_][[:alnum:]_]*
 IDENT                         [[:alpha:]_][[:alnum:]._]*
+UINT                          [[:digit:]]+
 INT                           [-+]?[[:digit:]]+
 
 %%
@@ -198,7 +200,7 @@ INT                           [-+]?[[:digit:]]+
 }
 
 <xglob>{
-{IDENT}/\n                    globsymbol();
+{IDENT}/\n                    globsymbol(); BEGIN(INITIAL);
 }
 
    /******************************************************************/
@@ -257,6 +259,10 @@ INT                           [-+]?[[:digit:]]+
    /* .long 4-byte address constant.                                 */
    /*                                                                */
    /* To process special constants we assume: (a) only one operand   */
+   /*                                                                */
+   /* gas  assumes that it can generate an unsigned address, that is */
+   /* up  to  4G,  but  HLASM  does  not  support this so we have to */
+   /* convert the long to hex.                                       */
    /******************************************************************/
 
 <xlong>{
@@ -354,7 +360,13 @@ INT                           [-+]?[[:digit:]]+
 {IDENT}                       refsymbol(); printf("%s", yytext);
 @{IDENT}                      printf("%s", yytext);
 "0x"[[:xdigit:]]+             printf("x'%s%s'", (1 & yyleng ? "0" : ""), yytext + 2);
+   /* HLASM  cannot  generate  a()  this  value  because the integer */
+   /* overflows before making negative.                              */
 "-2147483648"                 printf("x'80000000'");
+   /* To  support  unsigned  integers,  we  need  to play games with */
+   /* numbers in the range 2G .. 4G-1.  They have to be assembled as */
+   /* hex too.                                                       */
+{UINT}                        dounsigned();
 {INT}                         printf("%s", yytext);
    /* What are these?  They'll get you errors                        */
 "__fixdfsi"/\n                printf(" dc v(__fxdfsi)\n"); BEGIN(INITIAL);

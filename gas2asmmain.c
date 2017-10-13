@@ -138,6 +138,30 @@ dochar(int c)
 }
 
 static void
+dounsigned(void)
+{
+   if (10 == yyleng
+      && 0 <= strcmp(yytext, "2147483648")
+      && 0 >= strcmp(yytext, "4294967295"))
+   {
+      /* In the critical range.  Just in case it is way off.         */
+      unsigned long value;
+      char * endp;
+
+      value = strtoul(yytext, &endp, 10);
+      if (!*endp)
+      {
+         /* It did convert                                           */
+         printf("x'%lx'", value);
+         return;
+      }
+   }
+
+   /* Not over 2G or didn't convert properly                         */
+   printf("%s", yytext);
+}
+
+static void
 dohash(void)
 {
    int i;

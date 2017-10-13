@@ -55,7 +55,6 @@ static void
 globsymbol(void)
 {
    readyveh(global);
-   BEGIN(INITIAL);
 }
 
 static void

@@ -16405,6 +16405,14 @@ dummy equ *
  entry dummy
  @end
  end
+*  Manually generated test cases
+ dc a(x'80000000')
+ dc a(x'ffffffff')
+ dc a(2147483647)
+ dc a(4294967296)
+ dc a(x'eab00000')
+ @end
+ end
  @file    pcre_byte_order
 *  GNU C (SUSE Linux) version 4.3.4 [gcc-4_3-branch revision 152973] (s+
                390x-suse-linux)
