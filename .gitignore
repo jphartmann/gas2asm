@@ -11,3 +11,6 @@ asmxpnd
 gas2asm
 test/check.asm
 test/check.out
+sql3.dbg
+sql3.out
+sqlite3.s

@@ -16406,11 +16406,15 @@ dummy equ *
  @end
  end
 *  Manually generated test cases
+*  Unsigned large integers
  dc a(x'80000000')
  dc a(x'ffffffff')
  dc a(2147483647)
  dc a(4294967296)
  dc a(x'eab00000')
+*  Floating point register specifiers
+   std  0,64(15) ,
+   std  1,72(15) ,
  @end
  end
  @file    pcre_byte_order

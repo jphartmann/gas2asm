@@ -377,8 +377,10 @@ INT                           [-+]?[[:digit:]]+
    /* them to the original fp registers.                             */
 
 <xmach>{
-"%"[ar]                       ;       /* Access or General register  */
-f[[:digit:]]+                 printf("%s", yytext+1); /* fp register */
+"%"[arf]                      ;       /* register specifier          */
+   /* At  some  point we were trying to limit fp registers to 4, but */
+   /* that is just not possible                                      */
+   /* f[[:digit:]]+                 printf("%s", yytext+1); */ /* fp register */
 "."?{IDENT}                   dohash(); printf("%s", yytext);
 [[:digit:]]+                  |
 ,                             |
