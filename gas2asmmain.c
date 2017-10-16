@@ -113,6 +113,8 @@ main(int argc, char ** argv)
    {
       if (0 == strcmp(argv[1], "-j") || 0 == strcmp(argv[1], "--jhlasm"))
          usejhlasm = 1;
+      else if (0 == strcmp(argv[1], "-l") || 0 == strcmp(argv[1], "--nodwarf"))
+         nodotloc = 1;
       else if (0 == strcmp(argv[1], "-f") || 0 == strcmp(argv[1], "--flexdebug"))
          yy_flex_debug = 1;
       else fprintf(stderr, "gas2asm ignoring '%s'.  Input is read from standard input.\n", argv[1]);

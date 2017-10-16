@@ -91,6 +91,7 @@ static int locnos[3];
 static int locix;
 static char * filename;
 static int usejhlasm;           /* -j not to hash up long externals. */
+static int nodotloc;                 /* -l; do not issue @loc macros */
 
 /* Forward declarations:                                             */
 static void dochar(int c);
@@ -309,6 +310,7 @@ INT                           [-+]?[[:digit:]]+
 
 <xloc>{
 [[:digit:]]+                  {
+                                 if (nodotloc) break; /* Don't want it */
                                  locnos[locix++] = atol(yytext);
                                  if (3 > locix) break; /* Bad source */
                                  locix = 0;

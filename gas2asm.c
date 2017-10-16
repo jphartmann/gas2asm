@@ -1228,18 +1228,18 @@ int yy_flex_debug = 1;
 
 static yyconst flex_int16_t yy_rule_linenum[104] =
     {   0,
-      138,  139,  143,  144,  146,  148,  149,  154,  156,  158,
-      164,  167,  168,  170,  171,  173,  174,  176,  180,  181,
-      186,  194,  199,  203,  211,  212,  213,  215,  216,  217,
-      219,  220,  221,  225,  230,  231,  232,  244,  245,  249,
-      250,  251,  252,  253,  254,  255,  271,  283,  289,  299,
-      311,  321,  322,  326,  330,  346,  350,  355,  356,  357,
-      358,  359,  360,  361,  362,  365,  369,  370,  372,  373,
-      380,  384,  385,  386,  387,  388,  389,  395,  396,  397,
-      403,  404,  405,  406,  407,  408,  414,  419,  420,  421,
-      422,  423,  424,  425,  426,  433,  437,  441,  445,  453,
+      139,  140,  144,  145,  147,  149,  150,  155,  157,  159,
+      165,  168,  169,  171,  172,  174,  175,  177,  181,  182,
+      187,  195,  200,  204,  212,  213,  214,  216,  217,  218,
+      220,  221,  222,  226,  231,  232,  233,  245,  246,  250,
+      251,  252,  253,  254,  255,  256,  272,  284,  290,  300,
+      312,  323,  324,  328,  332,  348,  352,  357,  358,  359,
+      360,  361,  362,  363,  364,  367,  371,  372,  374,  375,
+      382,  386,  387,  388,  389,  390,  391,  397,  398,  399,
+      405,  406,  407,  408,  409,  410,  416,  421,  422,  423,
+      424,  425,  426,  427,  428,  435,  439,  443,  447,  455,
 
-      457,  458,  459
+      459,  460,  461
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -1341,6 +1341,7 @@ static int locnos[3];
 static int locix;
 static char * filename;
 static int usejhlasm;           /* -j not to hash up long externals. */
+static int nodotloc;                 /* -l; do not issue @loc macros */
 
 /* Forward declarations:                                             */
 static void dochar(int c);
@@ -1368,7 +1369,7 @@ hashlittle( const void *key, size_t length, unsigned int initval);
 
 /* 11    12     13   14     15   16   17    18    19   20            */
 
-#line 1372 "<stdout>"
+#line 1373 "<stdout>"
 
 #define INITIAL 0
 #define xfile 1
@@ -1635,10 +1636,10 @@ YY_DECL
 	register int yy_act;
     
 /* %% [7.0] user's declarations go here */
-#line 135 "gas2asm.l"
+#line 136 "gas2asm.l"
 
 
-#line 1642 "<stdout>"
+#line 1643 "<stdout>"
 
 	if ( !(yy_init) )
 		{
@@ -1751,30 +1752,30 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 138 "gas2asm.l"
+#line 139 "gas2asm.l"
 BEGIN(xdebug);
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 139 "gas2asm.l"
+#line 140 "gas2asm.l"
 printf(" @%s\n", yytext+1); BEGIN(INITIAL);
 	YY_BREAK
 
 
 case 3:
 YY_RULE_SETUP
-#line 143 "gas2asm.l"
+#line 144 "gas2asm.l"
 printf("* %s\n", yytext+1);
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 144 "gas2asm.l"
+#line 145 "gas2asm.l"
 printf(" %s\n", yytext+1);
 	YY_BREAK
 /* Maint file name                                                */
 case 5:
 YY_RULE_SETUP
-#line 146 "gas2asm.l"
+#line 147 "gas2asm.l"
 BEGIN(xfile);
 	YY_BREAK
 /* File name for dwarf.                                           */
@@ -1783,12 +1784,12 @@ case 6:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 148 "gas2asm.l"
+#line 149 "gas2asm.l"
 BEGIN(xfiled);
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 149 "gas2asm.l"
+#line 150 "gas2asm.l"
 BEGIN(xasmop);
 	YY_BREAK
 /* .data  tells  as to assemble the following statements onto the */
@@ -1797,19 +1798,19 @@ BEGIN(xasmop);
 /* zero.                                                          */
 case 8:
 YY_RULE_SETUP
-#line 154 "gas2asm.l"
+#line 155 "gas2asm.l"
 printf("   @data , \n");
 	YY_BREAK
 /* This directive switches to the .bss section.                   */
 case 9:
 YY_RULE_SETUP
-#line 156 "gas2asm.l"
+#line 157 "gas2asm.l"
 printf("   @bss , \n");
 	YY_BREAK
 /* A label.                                                       */
 case 10:
 YY_RULE_SETUP
-#line 158 "gas2asm.l"
+#line 159 "gas2asm.l"
 {
                                  yytext[yyleng - 1] = 0; /* Remove colon */
                                  dohash();
@@ -1819,58 +1820,58 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 164 "gas2asm.l"
+#line 165 "gas2asm.l"
 BEGIN(xglob);
 	YY_BREAK
 /* These  guys  are  not  the  long  relative  ops.   Also, avoid */
 /* branching on cc3.                                              */
 case 12:
 YY_RULE_SETUP
-#line 167 "gas2asm.l"
+#line 168 "gas2asm.l"
 printf("   bcr   10,"); BEGIN(xmach);
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 168 "gas2asm.l"
+#line 169 "gas2asm.l"
 printf("   bcr   12,"); BEGIN(xmach);
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 170 "gas2asm.l"
+#line 171 "gas2asm.l"
 printf("   brc   10,"); BEGIN(xmach);
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 171 "gas2asm.l"
+#line 172 "gas2asm.l"
 printf("   brc   12,"); BEGIN(xmach);
 	YY_BREAK
 /* This guy is used after SLRs to branch on not zero              */
 case 16:
 YY_RULE_SETUP
-#line 173 "gas2asm.l"
+#line 174 "gas2asm.l"
 printf("   jc    05,"); BEGIN(xmach);
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 174 "gas2asm.l"
+#line 175 "gas2asm.l"
 printf("   jc    03,"); BEGIN(xmach);
 	YY_BREAK
 /* Fall through to general opcode                                 */
 case 18:
 YY_RULE_SETUP
-#line 176 "gas2asm.l"
+#line 177 "gas2asm.l"
 printf("   %.*s  ", yyleng-2, yytext+1); BEGIN(xmach);
 	YY_BREAK
 
 
 case 19:
 YY_RULE_SETUP
-#line 180 "gas2asm.l"
+#line 181 "gas2asm.l"
 printf(" @section "); BEGIN(xmacop);
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 181 "gas2asm.l"
+#line 182 "gas2asm.l"
 ;
 	YY_BREAK
 
@@ -1878,7 +1879,7 @@ YY_RULE_SETUP
 
 case 21:
 YY_RULE_SETUP
-#line 186 "gas2asm.l"
+#line 187 "gas2asm.l"
 {
                                  fileix = atol(yytext);
                                  if (NUMF <= fileix)
@@ -1890,7 +1891,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 194 "gas2asm.l"
+#line 195 "gas2asm.l"
 {
                                  printf(" @fileix %d,%s\n", fileix, yytext+1);
                                  files[fileix] = strdup(yytext+1);
@@ -1899,7 +1900,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 199 "gas2asm.l"
+#line 200 "gas2asm.l"
 BEGIN(INITIAL);
 	YY_BREAK
 
@@ -1910,7 +1911,7 @@ case 24:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 203 "gas2asm.l"
+#line 204 "gas2asm.l"
 globsymbol(); BEGIN(INITIAL);
 	YY_BREAK
 
@@ -1919,37 +1920,37 @@ globsymbol(); BEGIN(INITIAL);
 /******************************************************************/
 
 case 25:
-#line 212 "gas2asm.l"
-case 26:
 #line 213 "gas2asm.l"
+case 26:
+#line 214 "gas2asm.l"
 case 27:
 YY_RULE_SETUP
-#line 213 "gas2asm.l"
+#line 214 "gas2asm.l"
 BEGIN(xskip);
 	YY_BREAK
 case 28:
-#line 216 "gas2asm.l"
-case 29:
 #line 217 "gas2asm.l"
+case 29:
+#line 218 "gas2asm.l"
 case 30:
 YY_RULE_SETUP
-#line 217 "gas2asm.l"
+#line 218 "gas2asm.l"
 printf(" @%-7s ", yytext); BEGIN(xmacop);
 	YY_BREAK
 /* string is null terminated; ascii is not                        */
 case 31:
 YY_RULE_SETUP
-#line 219 "gas2asm.l"
+#line 220 "gas2asm.l"
 strtype = str_string; printf(" dc x'"); slen=0; BEGIN(xstring);
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 220 "gas2asm.l"
+#line 221 "gas2asm.l"
 strtype = str_ascii ; printf(" dc x'"); slen=0; BEGIN(xstring);
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 221 "gas2asm.l"
+#line 222 "gas2asm.l"
 {
                                  printf(" dc 0%c\n", algs[0xf & yytext[yyleng-1]]);
                                  BEGIN(INITIAL);
@@ -1957,7 +1958,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 225 "gas2asm.l"
+#line 226 "gas2asm.l"
 {
                                  printf(" dc al1(");
                                  BEGIN(xprs);
@@ -1965,12 +1966,12 @@ YY_RULE_SETUP
 	YY_BREAK
 /* Negative relocatable(?) Y values attract ASMA072               */
 case 35:
-#line 231 "gas2asm.l"
-case 36:
 #line 232 "gas2asm.l"
+case 36:
+#line 233 "gas2asm.l"
 case 37:
 YY_RULE_SETUP
-#line 232 "gas2asm.l"
+#line 233 "gas2asm.l"
 {
                                  printf(" dc y(");
                                  BEGIN(xprs);
@@ -1982,12 +1983,12 @@ YY_RULE_SETUP
 /* Other fullword constants in general:                           */
 case 38:
 YY_RULE_SETUP
-#line 244 "gas2asm.l"
+#line 245 "gas2asm.l"
 BEGIN(xlong);        /* Decode further */
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 245 "gas2asm.l"
+#line 246 "gas2asm.l"
 {
                                  printf(" dc a(");
                                  BEGIN(xprs);
@@ -1995,37 +1996,37 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 249 "gas2asm.l"
+#line 250 "gas2asm.l"
 BEGIN(xcomm);
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 250 "gas2asm.l"
+#line 251 "gas2asm.l"
 printf(" @%-7s ", yytext); BEGIN(xdefs);
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 251 "gas2asm.l"
+#line 252 "gas2asm.l"
 printf(" @%-7s ", yytext); BEGIN(xmach);
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 252 "gas2asm.l"
+#line 253 "gas2asm.l"
 BEGIN(xquad);
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 253 "gas2asm.l"
+#line 254 "gas2asm.l"
 BEGIN(xloc);
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 254 "gas2asm.l"
+#line 255 "gas2asm.l"
 BEGIN(xule);
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 255 "gas2asm.l"
+#line 256 "gas2asm.l"
 BEGIN(xsle);
 	YY_BREAK
 
@@ -2042,7 +2043,7 @@ BEGIN(xsle);
 /* .long _GLOBAL_OFFSET_TABLE_-.L3                                */
 case 47:
 YY_RULE_SETUP
-#line 271 "gas2asm.l"
+#line 272 "gas2asm.l"
 {
                                  char * hyp = strchr(yytext, '-');
 
@@ -2060,7 +2061,7 @@ case 48:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 283 "gas2asm.l"
+#line 284 "gas2asm.l"
 {
                                  dohash();
                                  refsymbol();
@@ -2069,7 +2070,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 289 "gas2asm.l"
+#line 290 "gas2asm.l"
 {
                                  char * plus = strchr(yytext, '+');
                                  int atlen = plus ? plus - (yytext) : yyleng;
@@ -2083,7 +2084,7 @@ YY_RULE_SETUP
 /* .long in general                                               */
 case 50:
 YY_RULE_SETUP
-#line 299 "gas2asm.l"
+#line 300 "gas2asm.l"
 {
                                  yyless(0);
                                  printf(" dc a(");
@@ -2097,8 +2098,9 @@ YY_RULE_SETUP
 
 case 51:
 YY_RULE_SETUP
-#line 311 "gas2asm.l"
+#line 312 "gas2asm.l"
 {
+                                 if (nodotloc) break; /* Don't want it */
                                  locnos[locix++] = atol(yytext);
                                  if (3 > locix) break; /* Bad source */
                                  locix = 0;
@@ -2111,27 +2113,27 @@ YY_RULE_SETUP
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 321 "gas2asm.l"
+#line 323 "gas2asm.l"
 BEGIN(xskip);
 	YY_BREAK
 case 53:
 /* rule 53 can match eol */
 YY_RULE_SETUP
-#line 322 "gas2asm.l"
+#line 324 "gas2asm.l"
 lineno++; BEGIN(INITIAL);
 	YY_BREAK
 
 
 case 54:
 YY_RULE_SETUP
-#line 326 "gas2asm.l"
+#line 328 "gas2asm.l"
 printf(" dc xl16'%s'\n", yytext+2); BEGIN(INITIAL);
 	YY_BREAK
 
 
 case 55:
 YY_RULE_SETUP
-#line 330 "gas2asm.l"
+#line 332 "gas2asm.l"
 {
                                  dohash();
                                  if (usejhlasm || yyleng <= 8) printf(" @comm  %s", yytext);
@@ -2150,14 +2152,14 @@ YY_RULE_SETUP
 
 case 56:
 YY_RULE_SETUP
-#line 346 "gas2asm.l"
+#line 348 "gas2asm.l"
 dohash(); printf("%s", yytext); lclsymbol();
 	YY_BREAK
 
 
 case 57:
 YY_RULE_SETUP
-#line 350 "gas2asm.l"
+#line 352 "gas2asm.l"
 printf(","); BEGIN(xmacop);
 	YY_BREAK
 
@@ -2166,12 +2168,12 @@ printf(","); BEGIN(xmacop);
 case 58:
 /* rule 58 can match eol */
 YY_RULE_SETUP
-#line 355 "gas2asm.l"
+#line 357 "gas2asm.l"
 printf(")\n"); lineno++; BEGIN(INITIAL);
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 356 "gas2asm.l"
+#line 358 "gas2asm.l"
 printf("%c", yytext[0]);
 	YY_BREAK
 case 60:
@@ -2179,12 +2181,12 @@ case 60:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 357 "gas2asm.l"
+#line 359 "gas2asm.l"
 dohash(); printf("%s-", yytext);
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 358 "gas2asm.l"
+#line 360 "gas2asm.l"
 dohash(); printf("%s", yytext);
 	YY_BREAK
 case 62:
@@ -2192,29 +2194,29 @@ case 62:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 359 "gas2asm.l"
+#line 361 "gas2asm.l"
 refsymbol(); printf("%s-", yytext);
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 360 "gas2asm.l"
+#line 362 "gas2asm.l"
 refsymbol(); printf("%s", yytext);
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 361 "gas2asm.l"
+#line 363 "gas2asm.l"
 printf("%s", yytext);
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 362 "gas2asm.l"
+#line 364 "gas2asm.l"
 printf("x'%s%s'", (1 & yyleng ? "0" : ""), yytext + 2);
 	YY_BREAK
 /* HLASM  cannot  generate  a()  this  value  because the integer */
 /* overflows before making negative.                              */
 case 66:
 YY_RULE_SETUP
-#line 365 "gas2asm.l"
+#line 367 "gas2asm.l"
 printf("x'80000000'");
 	YY_BREAK
 /* To  support  unsigned  integers,  we  need  to play games with */
@@ -2222,12 +2224,12 @@ printf("x'80000000'");
 /* hex too.                                                       */
 case 67:
 YY_RULE_SETUP
-#line 369 "gas2asm.l"
+#line 371 "gas2asm.l"
 dounsigned();
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 370 "gas2asm.l"
+#line 372 "gas2asm.l"
 printf("%s", yytext);
 	YY_BREAK
 /* What are these?  They'll get you errors                        */
@@ -2237,7 +2239,7 @@ case 69:
 (yy_c_buf_p) = yy_cp = yy_bp + 9;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 372 "gas2asm.l"
+#line 374 "gas2asm.l"
 printf(" dc v(__fxdfsi)\n"); BEGIN(INITIAL);
 	YY_BREAK
 case 70:
@@ -2246,7 +2248,7 @@ case 70:
 (yy_c_buf_p) = yy_cp = yy_bp + 11;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 373 "gas2asm.l"
+#line 375 "gas2asm.l"
 printf(" dc v(__flsidf)\n"); BEGIN(INITIAL);
 	YY_BREAK
 
@@ -2255,7 +2257,7 @@ printf(" dc v(__flsidf)\n"); BEGIN(INITIAL);
 
 case 71:
 YY_RULE_SETUP
-#line 380 "gas2asm.l"
+#line 382 "gas2asm.l"
 ;       /* register specifier          */
 	YY_BREAK
 /* At  some  point we were trying to limit fp registers to 4, but */
@@ -2263,26 +2265,26 @@ YY_RULE_SETUP
 /* f[[:digit:]]+                 printf("%s", yytext+1); */ /* fp register */
 case 72:
 YY_RULE_SETUP
-#line 384 "gas2asm.l"
+#line 386 "gas2asm.l"
 dohash(); printf("%s", yytext);
 	YY_BREAK
 case 73:
-#line 386 "gas2asm.l"
+#line 388 "gas2asm.l"
 case 74:
-#line 387 "gas2asm.l"
+#line 389 "gas2asm.l"
 case 75:
 YY_RULE_SETUP
-#line 387 "gas2asm.l"
+#line 389 "gas2asm.l"
 printf("%s", yytext);
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 388 "gas2asm.l"
+#line 390 "gas2asm.l"
 printf(" %s", yytext+1);
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 389 "gas2asm.l"
+#line 391 "gas2asm.l"
 printf("*");
 	YY_BREAK
 
@@ -2290,17 +2292,17 @@ printf("*");
 
 case 78:
 YY_RULE_SETUP
-#line 395 "gas2asm.l"
+#line 397 "gas2asm.l"
 BEGIN(xstr);
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 396 "gas2asm.l"
+#line 398 "gas2asm.l"
 printf(",");
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 397 "gas2asm.l"
+#line 399 "gas2asm.l"
 dohash(); printf("%s", yytext);
 	YY_BREAK
 
@@ -2308,17 +2310,17 @@ dohash(); printf("%s", yytext);
 
 case 81:
 YY_RULE_SETUP
-#line 403 "gas2asm.l"
+#line 405 "gas2asm.l"
 printf("'%.*s'", yyleng-1, yytext); BEGIN(xmacop);
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 404 "gas2asm.l"
+#line 406 "gas2asm.l"
 printf("'%s',", yytext);
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 405 "gas2asm.l"
+#line 407 "gas2asm.l"
 printf("'\"',");
 	YY_BREAK
 case 84:
@@ -2327,17 +2329,17 @@ case 84:
 (yy_c_buf_p) = yy_cp = yy_bp + 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 406 "gas2asm.l"
+#line 408 "gas2asm.l"
 printf("n");
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 407 "gas2asm.l"
+#line 409 "gas2asm.l"
 printf("%c,", yytext[1]);
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 408 "gas2asm.l"
+#line 410 "gas2asm.l"
 BEGIN(xmacop);
 	YY_BREAK
 
@@ -2345,7 +2347,7 @@ BEGIN(xmacop);
 
 case 87:
 YY_RULE_SETUP
-#line 414 "gas2asm.l"
+#line 416 "gas2asm.l"
 {
                                  dochar(((0x3 & yytext[1])<<6)
                                     | ((0x7 & yytext[2])<<3)
@@ -2355,42 +2357,42 @@ YY_RULE_SETUP
 case 88:
 /* rule 88 can match eol */
 YY_RULE_SETUP
-#line 419 "gas2asm.l"
+#line 421 "gas2asm.l"
 dochar(0xff & yytext[0]);
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
-#line 420 "gas2asm.l"
+#line 422 "gas2asm.l"
 dochar(0xff & yytext[1]);
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
-#line 421 "gas2asm.l"
+#line 423 "gas2asm.l"
 dochar('\b');
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
-#line 422 "gas2asm.l"
+#line 424 "gas2asm.l"
 dochar('\f');
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
-#line 423 "gas2asm.l"
+#line 425 "gas2asm.l"
 dochar('\n');
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
-#line 424 "gas2asm.l"
+#line 426 "gas2asm.l"
 dochar('\r');
 	YY_BREAK
 case 94:
 YY_RULE_SETUP
-#line 425 "gas2asm.l"
+#line 427 "gas2asm.l"
 dochar('\t');
 	YY_BREAK
 case 95:
 YY_RULE_SETUP
-#line 426 "gas2asm.l"
+#line 428 "gas2asm.l"
 {
                                  printf("%s'", str_string == strtype ? "00" : "");
                                  BEGIN(xmacop);
@@ -2400,14 +2402,14 @@ YY_RULE_SETUP
 
 case 96:
 YY_RULE_SETUP
-#line 433 "gas2asm.l"
+#line 435 "gas2asm.l"
 ule(); BEGIN(INITIAL);
 	YY_BREAK
 
 
 case 97:
 YY_RULE_SETUP
-#line 437 "gas2asm.l"
+#line 439 "gas2asm.l"
 sle(); BEGIN(INITIAL);
 	YY_BREAK
 
@@ -2415,14 +2417,14 @@ sle(); BEGIN(INITIAL);
 case 98:
 /* rule 98 can match eol */
 YY_RULE_SETUP
-#line 441 "gas2asm.l"
+#line 443 "gas2asm.l"
 printf("\n"); lineno++; BEGIN(INITIAL);
 	YY_BREAK
 
 
 case 99:
 YY_RULE_SETUP
-#line 445 "gas2asm.l"
+#line 447 "gas2asm.l"
 {
                                  printf(" @file    %s\n", yytext);
                                  filename = strdup(yytext);
@@ -2433,7 +2435,7 @@ YY_RULE_SETUP
 
 case 100:
 YY_RULE_SETUP
-#line 453 "gas2asm.l"
+#line 455 "gas2asm.l"
 BEGIN(INITIAL);
 	YY_BREAK
 
@@ -2441,17 +2443,17 @@ BEGIN(INITIAL);
 case 101:
 /* rule 101 can match eol */
 YY_RULE_SETUP
-#line 457 "gas2asm.l"
+#line 459 "gas2asm.l"
 lineno++;
 	YY_BREAK
 case 102:
 YY_RULE_SETUP
-#line 458 "gas2asm.l"
+#line 460 "gas2asm.l"
 ;
 	YY_BREAK
 case 103:
 YY_RULE_SETUP
-#line 459 "gas2asm.l"
+#line 461 "gas2asm.l"
 {
                                  char * t;
 
@@ -2484,15 +2486,15 @@ case YY_STATE_EOF(xsle):
 case YY_STATE_EOF(xcomm):
 case YY_STATE_EOF(xun2):
 case YY_STATE_EOF(xprs):
-#line 471 "gas2asm.l"
+#line 473 "gas2asm.l"
 procsyms(); printf(" @end\n end\n"); return 0;
 	YY_BREAK
 case 104:
 YY_RULE_SETUP
-#line 473 "gas2asm.l"
+#line 475 "gas2asm.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 2496 "<stdout>"
+#line 2498 "<stdout>"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -3581,7 +3583,7 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 473 "gas2asm.l"
+#line 475 "gas2asm.l"
 
 
 

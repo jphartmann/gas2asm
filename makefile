@@ -3,8 +3,14 @@
 
 # gnu make required.  flex not required unless you change the .l file.
 
-.SUFFIXES: .maclib .macro
+.SUFFIXES: .maclib .macro .assemble .listing
 .PHONY: m
+
+%.assemble: %.s
+	./gas2asm -l <$< | ./asmxpnd >$@
+
+%.listing: %.assemble
+	hlasm -option term -macrobase macros $*
 
 INSTALLBIN:=${HOME}/bin
 INSTALLMAC:=${HOME}/macros
@@ -52,10 +58,6 @@ say:
 t: $M
 	rm -f core
 	./gas2asm -f <t.s >t.out 2>t.dbg
-
-q3: $M
-	rm -f core
-	./gas2asm -f <sqlite3.s >sql3.out 2>sql3.dbg
 
 test: $M
 	rm -f core
